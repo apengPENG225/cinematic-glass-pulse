@@ -12,6 +12,7 @@ import {
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
 import { drivePreview, getModul, slidesOf } from "@/lib/modul-data";
+import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/modul/$slug")({
   loader: ({ params }) => {
@@ -41,6 +42,7 @@ type Tool = "none" | "pen" | "eraser";
 function ModulViewer() {
   const { slug } = Route.useParams();
   const modul = getModul(slug)!;
+  const { klik } = useAudioApp();
   const slides = slidesOf(modul);
 
   const [index, setIndex] = useState(0);
@@ -141,14 +143,20 @@ function ModulViewer() {
           <ToolButton
             active={tool === "pen"}
             label="Pen penyerlah"
-            onClick={() => setTool(tool === "pen" ? "none" : "pen")}
+            onClick={() => {
+              klik();
+              setTool(tool === "pen" ? "none" : "pen");
+            }}
           >
             <Highlighter size={18} />
           </ToolButton>
           <ToolButton
             active={tool === "eraser"}
             label="Pemadam"
-            onClick={() => setTool(tool === "eraser" ? "none" : "eraser")}
+            onClick={() => {
+              klik();
+              setTool(tool === "eraser" ? "none" : "eraser");
+            }}
           >
             <Eraser size={18} />
           </ToolButton>
@@ -186,7 +194,10 @@ function ModulViewer() {
         {/* Navigation */}
         <div className="flex items-center justify-between gap-4 mt-4">
           <button
-            onClick={() => setIndex((i) => Math.max(0, i - 1))}
+            onClick={() => {
+              klik();
+              setIndex((i) => Math.max(0, i - 1));
+            }}
             disabled={index === 0}
             className="liquid-glass rounded-full px-6 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors disabled:opacity-40 inline-flex items-center gap-2"
           >
@@ -201,7 +212,10 @@ function ModulViewer() {
             Buka di Drive <ExternalLink size={12} />
           </a>
           <button
-            onClick={() => setIndex((i) => Math.min(slides.length - 1, i + 1))}
+            onClick={() => {
+              klik();
+              setIndex((i) => Math.min(slides.length - 1, i + 1));
+            }}
             disabled={index === slides.length - 1}
             className="liquid-glass rounded-full px-6 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors disabled:opacity-40 inline-flex items-center gap-2"
           >
