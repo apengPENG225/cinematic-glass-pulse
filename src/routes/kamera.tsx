@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import { ArrowRight, Camera, ImagePlus, Loader2, X } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
-import { scanKesalahanBahasa } from "@/lib/kamera.functions";
+import { scanKesalahanBahasa, type AnalisisBahasa } from "@/lib/kamera.functions";
+import AnalisisKad from "@/components/AnalisisKad";
 import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/kamera")({
@@ -28,7 +29,9 @@ export const Route = createFileRoute("/kamera")({
   component: Kamera,
 });
 
-type Mesej = { peranan: "pengguna" | "ai"; teks: string; imej?: string };
+type Mesej =
+  | { peranan: "pengguna"; teks: string; imej?: string }
+  | { peranan: "ai"; analisis: AnalisisBahasa };
 
 function Kamera() {
   const scan = useServerFn(scanKesalahanBahasa);
@@ -60,7 +63,7 @@ function Kamera() {
     setSoalan("");
     try {
       const res = await scan({ data: { image: imej, soalan: soalanIni } });
-      setMesej((m) => [...m, { peranan: "ai", teks: res.jawapan }]);
+      setMesej((m) => [...m, { peranan: "ai", analisis: res }]);
       setImej(null);
       if (fileRef.current) fileRef.current.value = "";
       if (cameraRef.current) cameraRef.current.value = "";
@@ -99,14 +102,20 @@ function Kamera() {
               key={i}
               className={`liquid-glass rounded-3xl p-5 ${m.peranan === "pengguna" ? "ml-auto max-w-[85%]" : "mr-auto max-w-full"}`}
             >
-              {m.imej && (
-                <img
-                  src={m.imej}
-                  alt="Gambar dimuat naik untuk imbasan bahasa"
-                  className="rounded-2xl mb-3 max-h-64 w-auto"
-                />
+              {m.peranan === "pengguna" ? (
+                <>
+                  {m.imej && (
+                    <img
+                      src={m.imej}
+                      alt="Gambar dimuat naik untuk imbasan bahasa"
+                      className="rounded-2xl mb-3 max-h-64 w-auto"
+                    />
+                  )}
+                  <p className="text-white text-sm whitespace-pre-wrap leading-relaxed">{m.teks}</p>
+                </>
+              ) : (
+                <AnalisisKad data={m.analisis} />
               )}
-              <p className="text-white text-sm whitespace-pre-wrap leading-relaxed">{m.teks}</p>
             </div>
           ))}
           {memuat && (

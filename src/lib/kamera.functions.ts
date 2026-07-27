@@ -6,9 +6,78 @@ const schema = z.object({
   soalan: z.string().max(500).optional(),
 });
 
+export type JenisKesalahan = "Fonologi" | "Morfologi" | "Sintaksis" | "Lain-lain";
+
+export type Kesalahan = {
+  salah: string;
+  betul: string;
+  jenis: JenisKesalahan;
+  sebab: string;
+  kataKunci: string;
+};
+
+export type AnalisisBahasa = {
+  teksDikesan: string;
+  kesalahan: Kesalahan[];
+  rumusan: string;
+  mentah?: string;
+};
+
+const SYSTEM = `Anda ialah "Kamera Peka" e-MuNsi, pakar tatabahasa Bahasa Melayu (rujukan utama: Pusat Rujukan Persuratan Melayu, DBP).
+
+Teliti imej, petik semula teks yang tertera, dan kenal pasti setiap kesalahan bahasa.
+Kelaskan setiap kesalahan sebagai "Fonologi" (ejaan/sebutan), "Morfologi" (imbuhan/pembentukan kata), "Sintaksis" (struktur ayat) atau "Lain-lain".
+
+Balas HANYA dengan objek JSON sah (tiada teks lain, tiada blok kod) dengan bentuk:
+{
+  "teksDikesan": "teks penuh yang dibaca daripada gambar",
+  "kesalahan": [
+    {
+      "salah": "perkataan/frasa yang salah sahaja",
+      "betul": "pembetulan yang tepat sahaja",
+      "jenis": "Fonologi | Morfologi | Sintaksis | Lain-lain",
+      "sebab": "penjelasan ringkas 1-2 ayat mengikut hukum tatabahasa",
+      "kataKunci": "satu kata dasar/kata betul untuk dicari dalam PRPM"
+    }
+  ],
+  "rumusan": "rumusan ringkas keseluruhan dalam Bahasa Melayu"
+}
+
+Peraturan: setiap kesalahan WAJIB ada pembetulan. "kataKunci" mesti satu perkataan sahaja (kata dasar bagi bentuk yang betul) supaya boleh dicari di PRPM. Jika tiada kesalahan, kembalikan "kesalahan": [] dan nyatakan dalam rumusan.`;
+
+function cubaParse(teks: string): AnalisisBahasa | null {
+  const bersih = teks
+    .replace(/^```(?:json)?/i, "")
+    .replace(/```$/i, "")
+    .trim();
+  const mula = bersih.indexOf("{");
+  const akhir = bersih.lastIndexOf("}");
+  if (mula === -1 || akhir === -1) return null;
+  try {
+    const raw = JSON.parse(bersih.slice(mula, akhir + 1)) as Partial<AnalisisBahasa>;
+    return {
+      teksDikesan: String(raw.teksDikesan ?? ""),
+      rumusan: String(raw.rumusan ?? ""),
+      kesalahan: Array.isArray(raw.kesalahan)
+        ? raw.kesalahan.slice(0, 30).map((k) => ({
+            salah: String(k?.salah ?? ""),
+            betul: String(k?.betul ?? ""),
+            jenis: (["Fonologi", "Morfologi", "Sintaksis"].includes(String(k?.jenis))
+              ? k?.jenis
+              : "Lain-lain") as JenisKesalahan,
+            sebab: String(k?.sebab ?? ""),
+            kataKunci: String(k?.kataKunci ?? k?.betul ?? "").split(/\s+/)[0] ?? "",
+          }))
+        : [],
+    };
+  } catch {
+    return null;
+  }
+}
+
 export const scanKesalahanBahasa = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => schema.parse(data))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<AnalisisBahasa> => {
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("AI belum dikonfigurasikan.");
 
@@ -21,15 +90,16 @@ export const scanKesalahanBahasa = createServerFn({ method: "POST" })
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          {
-            role: "system",
-            content:
-              "Anda ialah Kamera Peka e-MuNsi, pakar bahasa Melayu. Teliti imej yang dimuat naik, petik semula teks yang tertera, dan kenal pasti kesalahan bahasa. Kelaskan setiap kesalahan sebagai Fonologi (ejaan/sebutan), Morfologi (imbuhan/pembentukan kata) atau Sintaksis (struktur ayat). Jawab dalam Bahasa Melayu ringkas dengan format:\n\n**Teks dikesan**\n...\n\n**Kesalahan**\n1. Salah: ... | Betul: ... | Jenis: ... | Sebab: ...\n\n**Rumusan**\n...\n\nJika tiada kesalahan, nyatakan dengan jelas.",
-          },
+          { role: "system", content: SYSTEM },
           {
             role: "user",
             content: [
-              { type: "text", text: data.soalan?.trim() || "Sila imbas kesalahan bahasa dalam gambar ini." },
+              {
+                type: "text",
+                text:
+                  data.soalan?.trim() ||
+                  "Sila imbas kesalahan bahasa dalam gambar ini dan berikan pembetulan.",
+              },
               { type: "image_url", image_url: { url: data.image } },
             ],
           },
@@ -48,5 +118,13 @@ export const scanKesalahanBahasa = createServerFn({ method: "POST" })
     const json = (await response.json()) as {
       choices?: { message?: { content?: string } }[];
     };
-    return { jawapan: json.choices?.[0]?.message?.content ?? "Tiada jawapan diterima." };
+    const teks = json.choices?.[0]?.message?.content ?? "";
+    const hasil = cubaParse(teks);
+    if (hasil) return hasil;
+    return {
+      teksDikesan: "",
+      kesalahan: [],
+      rumusan: "",
+      mentah: teks || "Tiada jawapan diterima.",
+    };
   });
