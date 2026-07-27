@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Camera, Sparkles } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
-import VelorahHero from "@/components/VelorahHero";
 import { useAudioApp } from "@/lib/audio";
-import { useTheme } from "@/lib/theme";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,8 +28,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { klik } = useAudioApp();
-  const { tema } = useTheme();
-  if (tema === "velorah") return <VelorahHero />;
   return (
     <div className="min-h-screen bg-black overflow-hidden relative flex flex-col">
       <VideoBackground />
