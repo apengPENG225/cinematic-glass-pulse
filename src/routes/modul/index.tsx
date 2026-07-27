@@ -3,6 +3,7 @@ import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
 import { moduls } from "@/lib/modul-data";
 import { ArrowRight } from "lucide-react";
+import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/modul/")({
   head: () => ({
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/modul/")({
 });
 
 function ModulIndex() {
+  const { klik } = useAudioApp();
   return (
     <div className="min-h-screen bg-black overflow-hidden relative flex flex-col">
       <VideoBackground />
@@ -47,6 +49,7 @@ function ModulIndex() {
               key={m.slug}
               to="/modul/$slug"
               params={{ slug: m.slug }}
+              onClick={klik}
               className="liquid-glass rounded-3xl p-6 hover:bg-white/5 transition-colors block"
             >
               <span className="text-2xl">{m.emoji}</span>

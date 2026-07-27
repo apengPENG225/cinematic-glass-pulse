@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Camera, Sparkles } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
+import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { klik } = useAudioApp();
   return (
     <div className="min-h-screen bg-black overflow-hidden relative flex flex-col">
       <VideoBackground />
@@ -50,6 +52,7 @@ function Index() {
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             to="/kamera"
+            onClick={klik}
             className="bg-white rounded-full pl-6 pr-2 py-2 flex items-center gap-3 text-black text-sm font-medium"
           >
             Buka Kamera Peka
@@ -59,6 +62,7 @@ function Index() {
           </Link>
           <Link
             to="/modul"
+            onClick={klik}
             className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors"
           >
             Terokai Modul

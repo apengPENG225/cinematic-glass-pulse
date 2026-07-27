@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
-import { ArrowRight, ImagePlus, Loader2, X } from "lucide-react";
+import { ArrowRight, Camera, ImagePlus, Loader2, X } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
 import { scanKesalahanBahasa } from "@/lib/kamera.functions";
+import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/kamera")({
   head: () => ({
@@ -32,6 +33,8 @@ type Mesej = { peranan: "pengguna" | "ai"; teks: string; imej?: string };
 function Kamera() {
   const scan = useServerFn(scanKesalahanBahasa);
   const fileRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const { klik } = useAudioApp();
   const [imej, setImej] = useState<string | null>(null);
   const [soalan, setSoalan] = useState("");
   const [mesej, setMesej] = useState<Mesej[]>([]);
@@ -60,6 +63,7 @@ function Kamera() {
       setMesej((m) => [...m, { peranan: "ai", teks: res.jawapan }]);
       setImej(null);
       if (fileRef.current) fileRef.current.value = "";
+      if (cameraRef.current) cameraRef.current.value = "";
     } catch (e) {
       setRalat(e instanceof Error ? e.message : "Ralat tidak dijangka.");
     } finally {
@@ -124,6 +128,7 @@ function Kamera() {
               onClick={() => {
                 setImej(null);
                 if (fileRef.current) fileRef.current.value = "";
+      if (cameraRef.current) cameraRef.current.value = "";
               }}
               className="rounded-full p-2 text-white/70 hover:text-white"
             >
@@ -134,20 +139,43 @@ function Kamera() {
 
         <div className="liquid-glass rounded-full pl-2 pr-2 py-2 flex items-center gap-2">
           <button
-            aria-label="Muat naik gambar"
-            onClick={() => fileRef.current?.click()}
+            aria-label="Muat naik gambar dari galeri"
+            title="Muat naik gambar dari galeri"
+            onClick={() => {
+              klik();
+              fileRef.current?.click();
+            }}
             className="rounded-full p-3 text-white/80 hover:text-white hover:bg-white/10 transition-colors"
           >
             <ImagePlus size={20} />
           </button>
+          <button
+            aria-label="Ambil gambar dengan kamera"
+            title="Ambil gambar dengan kamera"
+            onClick={() => {
+              klik();
+              cameraRef.current?.click();
+            }}
+            className="rounded-full p-3 text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+          >
+            <Camera size={20} />
+          </button>
           <input
             ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => pilihFail(e.target.files?.[0])}
+          />
+          <input
+            ref={cameraRef}
             type="file"
             accept="image/*"
             capture="environment"
             className="hidden"
             onChange={(e) => pilihFail(e.target.files?.[0])}
           />
+
           <input
             value={soalan}
             onChange={(e) => setSoalan(e.target.value)}
