@@ -9,9 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as KameraRouteImport } from './routes/kamera'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ModulIndexRouteImport } from './routes/modul/index'
+import { Route as ModulSlugRouteImport } from './routes/modul/$slug'
 
+const KameraRoute = KameraRouteImport.update({
+  id: '/kamera',
+  path: '/kamera',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -22,35 +29,55 @@ const ModulIndexRoute = ModulIndexRouteImport.update({
   path: '/modul/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModulSlugRoute = ModulSlugRouteImport.update({
+  id: '/modul/$slug',
+  path: '/modul/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kamera': typeof KameraRoute
+  '/modul/$slug': typeof ModulSlugRoute
   '/modul/': typeof ModulIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kamera': typeof KameraRoute
+  '/modul/$slug': typeof ModulSlugRoute
   '/modul': typeof ModulIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kamera': typeof KameraRoute
+  '/modul/$slug': typeof ModulSlugRoute
   '/modul/': typeof ModulIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/modul/'
+  fullPaths: '/' | '/kamera' | '/modul/$slug' | '/modul/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/modul'
-  id: '__root__' | '/' | '/modul/'
+  to: '/' | '/kamera' | '/modul/$slug' | '/modul'
+  id: '__root__' | '/' | '/kamera' | '/modul/$slug' | '/modul/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KameraRoute: typeof KameraRoute
+  ModulSlugRoute: typeof ModulSlugRoute
   ModulIndexRoute: typeof ModulIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/kamera': {
+      id: '/kamera'
+      path: '/kamera'
+      fullPath: '/kamera'
+      preLoaderRoute: typeof KameraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -65,11 +92,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModulIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/modul/$slug': {
+      id: '/modul/$slug'
+      path: '/modul/$slug'
+      fullPath: '/modul/$slug'
+      preLoaderRoute: typeof ModulSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KameraRoute: KameraRoute,
+  ModulSlugRoute: ModulSlugRoute,
   ModulIndexRoute: ModulIndexRoute,
 }
 export const routeTree = rootRouteImport
