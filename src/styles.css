@@ -140,6 +140,7 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-body, system-ui, sans-serif);
   }
 }
 
@@ -148,6 +149,7 @@
   background: rgba(255, 255, 255, 0.01);
   background-blend-mode: luminosity;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border: none;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
   position: relative;
@@ -178,4 +180,52 @@
     linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
+}
+
+/* --- Tema Velorah: navy dalam, tipografi editorial --- */
+html.theme-velorah {
+  --background: oklch(0.24 0.07 240);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.18 0.05 240);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.18 0.05 240);
+  --popover-foreground: oklch(1 0 0);
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0.05 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.72 0.01 260);
+  --accent: oklch(0.15 0 0);
+  --accent-foreground: oklch(1 0 0);
+  --border: oklch(0.28 0 0);
+  --input: oklch(0.28 0 0);
+  --ring: oklch(0.72 0.01 260);
+  --font-body: "Inter", sans-serif;
+  --font-display: "Instrument Serif", serif;
+}
+
+html.theme-velorah body {
+  background-color: var(--color-background);
+}
+
+/* --- Animasi fade-rise (Velorah) --- */
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-rise {
+  animation: fade-rise 0.8s ease-out both;
+}
+.animate-fade-rise-delay {
+  animation: fade-rise 0.8s ease-out 0.2s both;
+}
+.animate-fade-rise-delay-2 {
+  animation: fade-rise 0.8s ease-out 0.4s both;
 }

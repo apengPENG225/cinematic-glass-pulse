@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Music, ScanLine, VolumeX } from "lucide-react";
+import { Music, ScanLine, Settings, VolumeX } from "lucide-react";
 import { useAudioApp } from "@/lib/audio";
 
 export default function SiteNav() {
@@ -62,6 +62,15 @@ export default function SiteNav() {
           >
             {main ? <Music size={18} /> : <VolumeX size={18} />}
           </button>
+          <Link
+            to="/tetapan"
+            onClick={klik}
+            aria-label="Tetapan"
+            title="Tetapan"
+            className="rounded-full p-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+          >
+            <Settings size={18} />
+          </Link>
           <Link
             to="/kamera"
             onClick={klik}
