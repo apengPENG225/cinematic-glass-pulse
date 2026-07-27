@@ -134,20 +134,43 @@ function Kamera() {
 
         <div className="liquid-glass rounded-full pl-2 pr-2 py-2 flex items-center gap-2">
           <button
-            aria-label="Muat naik gambar"
-            onClick={() => fileRef.current?.click()}
+            aria-label="Muat naik gambar dari galeri"
+            title="Muat naik gambar dari galeri"
+            onClick={() => {
+              klik();
+              fileRef.current?.click();
+            }}
             className="rounded-full p-3 text-white/80 hover:text-white hover:bg-white/10 transition-colors"
           >
             <ImagePlus size={20} />
           </button>
+          <button
+            aria-label="Ambil gambar dengan kamera"
+            title="Ambil gambar dengan kamera"
+            onClick={() => {
+              klik();
+              cameraRef.current?.click();
+            }}
+            className="rounded-full p-3 text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+          >
+            <Camera size={20} />
+          </button>
           <input
             ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => pilihFail(e.target.files?.[0])}
+          />
+          <input
+            ref={cameraRef}
             type="file"
             accept="image/*"
             capture="environment"
             className="hidden"
             onChange={(e) => pilihFail(e.target.files?.[0])}
           />
+
           <input
             value={soalan}
             onChange={(e) => setSoalan(e.target.value)}
