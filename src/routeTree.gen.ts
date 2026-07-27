@@ -9,38 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as KameraRouteImport } from './routes/kamera'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ModulIndexRouteImport } from './routes/modul/index'
+import { Route as ModulSlugRouteImport } from './routes/modul/$slug'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KameraRoute = KameraRouteImport.update({
+  id: '/kamera',
+  path: '/kamera',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModulIndexRoute = ModulIndexRouteImport.update({
+  id: '/modul/',
+  path: '/modul/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulSlugRoute = ModulSlugRouteImport.update({
+  id: '/modul/$slug',
+  path: '/modul/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kamera': typeof KameraRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/modul/$slug': typeof ModulSlugRoute
+  '/modul/': typeof ModulIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kamera': typeof KameraRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/modul/$slug': typeof ModulSlugRoute
+  '/modul': typeof ModulIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kamera': typeof KameraRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/modul/$slug': typeof ModulSlugRoute
+  '/modul/': typeof ModulIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/kamera' | '/sitemap.xml' | '/modul/$slug' | '/modul/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/kamera' | '/sitemap.xml' | '/modul/$slug' | '/modul'
+  id: '__root__' | '/' | '/kamera' | '/sitemap.xml' | '/modul/$slug' | '/modul/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KameraRoute: typeof KameraRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ModulSlugRoute: typeof ModulSlugRoute
+  ModulIndexRoute: typeof ModulIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kamera': {
+      id: '/kamera'
+      path: '/kamera'
+      fullPath: '/kamera'
+      preLoaderRoute: typeof KameraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +102,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/modul/': {
+      id: '/modul/'
+      path: '/modul'
+      fullPath: '/modul/'
+      preLoaderRoute: typeof ModulIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modul/$slug': {
+      id: '/modul/$slug'
+      path: '/modul/$slug'
+      fullPath: '/modul/$slug'
+      preLoaderRoute: typeof ModulSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KameraRoute: KameraRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ModulSlugRoute: ModulSlugRoute,
+  ModulIndexRoute: ModulIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
