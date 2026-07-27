@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
-import { ArrowRight, ImagePlus, Loader2, X } from "lucide-react";
+import { ArrowRight, Camera, ImagePlus, Loader2, X } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
 import { scanKesalahanBahasa } from "@/lib/kamera.functions";
+import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/kamera")({
   head: () => ({
@@ -32,6 +33,8 @@ type Mesej = { peranan: "pengguna" | "ai"; teks: string; imej?: string };
 function Kamera() {
   const scan = useServerFn(scanKesalahanBahasa);
   const fileRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const { klik } = useAudioApp();
   const [imej, setImej] = useState<string | null>(null);
   const [soalan, setSoalan] = useState("");
   const [mesej, setMesej] = useState<Mesej[]>([]);
@@ -60,6 +63,7 @@ function Kamera() {
       setMesej((m) => [...m, { peranan: "ai", teks: res.jawapan }]);
       setImej(null);
       if (fileRef.current) fileRef.current.value = "";
+      if (cameraRef.current) cameraRef.current.value = "";
     } catch (e) {
       setRalat(e instanceof Error ? e.message : "Ralat tidak dijangka.");
     } finally {
@@ -124,6 +128,7 @@ function Kamera() {
               onClick={() => {
                 setImej(null);
                 if (fileRef.current) fileRef.current.value = "";
+      if (cameraRef.current) cameraRef.current.value = "";
               }}
               className="rounded-full p-2 text-white/70 hover:text-white"
             >
