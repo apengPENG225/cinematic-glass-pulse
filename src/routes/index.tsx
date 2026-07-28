@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ArrowRight, BookOpen, Camera, Sparkles } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
+import BerandaTema2 from "@/components/tema2/BerandaTema2";
 import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/")({
