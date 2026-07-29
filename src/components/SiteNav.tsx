@@ -33,6 +33,13 @@ export default function SiteNav() {
               Modul
             </Link>
             <Link
+              to="/latihan"
+              onClick={klik}
+              className="text-white/80 hover:text-white transition-colors text-sm font-medium"
+            >
+              Latihan Kendiri
+            </Link>
+            <Link
               to="/"
               hash="tentang"
               onClick={klik}
