@@ -13,7 +13,9 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as KameraRouteImport } from './routes/kamera'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ModulIndexRouteImport } from './routes/modul/index'
+import { Route as LatihanIndexRouteImport } from './routes/latihan/index'
 import { Route as ModulSlugRouteImport } from './routes/modul/$slug'
+import { Route as LatihanSlugRouteImport } from './routes/latihan/$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -35,9 +37,19 @@ const ModulIndexRoute = ModulIndexRouteImport.update({
   path: '/modul/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LatihanIndexRoute = LatihanIndexRouteImport.update({
+  id: '/latihan/',
+  path: '/latihan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ModulSlugRoute = ModulSlugRouteImport.update({
   id: '/modul/$slug',
   path: '/modul/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LatihanSlugRoute = LatihanSlugRouteImport.update({
+  id: '/latihan/$slug',
+  path: '/latihan/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -45,14 +57,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
+  '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
+  '/latihan': typeof LatihanIndexRoute
   '/modul': typeof ModulIndexRoute
 }
 export interface FileRoutesById {
@@ -60,22 +76,48 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
+  '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/kamera' | '/sitemap.xml' | '/modul/$slug' | '/modul/'
+  fullPaths:
+    | '/'
+    | '/kamera'
+    | '/sitemap.xml'
+    | '/latihan/$slug'
+    | '/modul/$slug'
+    | '/latihan/'
+    | '/modul/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/kamera' | '/sitemap.xml' | '/modul/$slug' | '/modul'
-  id: '__root__' | '/' | '/kamera' | '/sitemap.xml' | '/modul/$slug' | '/modul/'
+  to:
+    | '/'
+    | '/kamera'
+    | '/sitemap.xml'
+    | '/latihan/$slug'
+    | '/modul/$slug'
+    | '/latihan'
+    | '/modul'
+  id:
+    | '__root__'
+    | '/'
+    | '/kamera'
+    | '/sitemap.xml'
+    | '/latihan/$slug'
+    | '/modul/$slug'
+    | '/latihan/'
+    | '/modul/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   KameraRoute: typeof KameraRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  LatihanSlugRoute: typeof LatihanSlugRoute
   ModulSlugRoute: typeof ModulSlugRoute
+  LatihanIndexRoute: typeof LatihanIndexRoute
   ModulIndexRoute: typeof ModulIndexRoute
 }
 
@@ -109,11 +151,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModulIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/latihan/': {
+      id: '/latihan/'
+      path: '/latihan'
+      fullPath: '/latihan/'
+      preLoaderRoute: typeof LatihanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/modul/$slug': {
       id: '/modul/$slug'
       path: '/modul/$slug'
       fullPath: '/modul/$slug'
       preLoaderRoute: typeof ModulSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/latihan/$slug': {
+      id: '/latihan/$slug'
+      path: '/latihan/$slug'
+      fullPath: '/latihan/$slug'
+      preLoaderRoute: typeof LatihanSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -123,7 +179,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   KameraRoute: KameraRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  LatihanSlugRoute: LatihanSlugRoute,
   ModulSlugRoute: ModulSlugRoute,
+  LatihanIndexRoute: LatihanIndexRoute,
   ModulIndexRoute: ModulIndexRoute,
 }
 export const routeTree = rootRouteImport
