@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { ArrowRight, BookOpen, Camera, Sparkles } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
-import BerandaTema2 from "@/components/tema2/BerandaTema2";
 import { useAudioApp } from "@/lib/audio";
 
 export const Route = createFileRoute("/")({
@@ -29,40 +27,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [tema, setTema] = useState<"1" | "2">("1");
-
-  useEffect(() => {
-    const simpan = localStorage.getItem("emunsi-tema");
-    if (simpan === "2") setTema("2");
-  }, []);
-
-  const tukar = (t: "1" | "2") => {
-    setTema(t);
-    localStorage.setItem("emunsi-tema", t);
-  };
-
-  return (
-    <>
-      <div className="fixed bottom-4 right-4 z-[60] liquid-glass rounded-full p-1 flex items-center gap-1 text-xs">
-        {(["1", "2"] as const).map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => tukar(t)}
-            className={`rounded-full px-3 py-1.5 transition-colors ${
-              tema === t ? "bg-white text-black" : "text-white/70 hover:text-white"
-            }`}
-          >
-            Tema {t}
-          </button>
-        ))}
-      </div>
-      {tema === "1" ? <BerandaTema1 /> : <BerandaTema2 />}
-    </>
-  );
-}
-
-function BerandaTema1() {
   const { klik } = useAudioApp();
   return (
     <div className="min-h-screen bg-black overflow-hidden relative flex flex-col">
