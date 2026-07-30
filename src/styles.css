@@ -179,3 +179,299 @@
   mask-composite: exclude;
   pointer-events: none;
 }
+
+/* --- e-MuNsi: sistem tema latar --- */
+.tema-asas,
+.tema-corak,
+.tema-cahaya,
+.tema-tudung {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tema-asas {
+  background: var(--tema-asas, #05070c);
+}
+
+.tema-corak {
+  inset: -25%;
+  background-image: var(--tema-corak, none);
+  background-size: var(--tema-corak-saiz, 120px 120px);
+  background-position: 0 0;
+  opacity: var(--tema-corak-legap, 0.45);
+  animation: tema-hanyut var(--tema-laju, 48s) linear infinite;
+  will-change: transform;
+}
+
+.tema-cahaya {
+  background: var(--tema-cahaya, none);
+  mix-blend-mode: screen;
+  animation: tema-nafas 16s ease-in-out infinite;
+}
+
+.tema-tudung {
+  background:
+    radial-gradient(120% 90% at 50% 10%, transparent 0%, rgba(0, 0, 0, 0.55) 100%),
+    rgba(0, 0, 0, 0.25);
+}
+
+@keyframes tema-hanyut {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--tema-anjak-x, -160px), var(--tema-anjak-y, -160px), 0);
+  }
+}
+
+@keyframes tema-nafas {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tema-corak,
+  .tema-cahaya {
+    animation: none;
+  }
+}
+
+/* Ufuk Senja */
+[data-tema="ufuk-senja"] .tema-asas {
+  background: linear-gradient(180deg, #2a1020 0%, #6d2436 45%, #c85a2c 78%, #f0a35e 100%);
+}
+[data-tema="ufuk-senja"] .tema-corak {
+  --tema-corak: repeating-linear-gradient(
+    180deg,
+    rgba(255, 214, 170, 0.16) 0px,
+    rgba(255, 214, 170, 0.16) 2px,
+    transparent 2px,
+    transparent 26px
+  );
+  --tema-corak-saiz: 100% 26px;
+  --tema-corak-legap: 0.6;
+  --tema-anjak-x: 0px;
+  --tema-anjak-y: -78px;
+  --tema-laju: 26s;
+}
+[data-tema="ufuk-senja"] .tema-cahaya {
+  background: radial-gradient(45% 30% at 50% 82%, rgba(255, 190, 120, 0.55), transparent 70%);
+}
+
+/* Laut Dalam */
+[data-tema="laut-dalam"] .tema-asas {
+  background: linear-gradient(180deg, #04121f 0%, #072d46 55%, #0b4a63 100%);
+}
+[data-tema="laut-dalam"] .tema-corak {
+  --tema-corak:
+    repeating-radial-gradient(
+      circle at 20% 30%,
+      rgba(79, 209, 197, 0.14) 0 2px,
+      transparent 2px 42px
+    ),
+    repeating-linear-gradient(
+      115deg,
+      rgba(140, 220, 255, 0.08) 0 3px,
+      transparent 3px 34px
+    );
+  --tema-corak-saiz: 420px 420px, 260px 260px;
+  --tema-corak-legap: 0.75;
+  --tema-anjak-x: -140px;
+  --tema-anjak-y: -90px;
+  --tema-laju: 55s;
+}
+[data-tema="laut-dalam"] .tema-cahaya {
+  background: radial-gradient(50% 40% at 50% 0%, rgba(120, 230, 255, 0.35), transparent 70%);
+}
+
+/* Rimba Zamrud */
+[data-tema="rimba-zamrud"] .tema-asas {
+  background: linear-gradient(180deg, #04140d 0%, #0d3325 60%, #12523a 100%);
+}
+[data-tema="rimba-zamrud"] .tema-corak {
+  --tema-corak:
+    repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      rgba(92, 224, 155, 0.1) 0deg 12deg,
+      transparent 12deg 30deg
+    );
+  --tema-corak-saiz: 220px 220px;
+  --tema-corak-legap: 0.5;
+  --tema-anjak-x: -220px;
+  --tema-anjak-y: -220px;
+  --tema-laju: 70s;
+}
+[data-tema="rimba-zamrud"] .tema-cahaya {
+  background: radial-gradient(35% 45% at 25% 10%, rgba(160, 255, 200, 0.35), transparent 70%);
+}
+
+/* Batik Nusantara */
+[data-tema="batik-nusantara"] .tema-asas {
+  background: linear-gradient(160deg, #1a0f08 0%, #40200f 55%, #5c2f16 100%);
+}
+[data-tema="batik-nusantara"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 25% 25%, rgba(224, 169, 92, 0.35) 0 6px, transparent 7px),
+    radial-gradient(circle at 75% 75%, rgba(224, 169, 92, 0.22) 0 10px, transparent 11px),
+    repeating-linear-gradient(
+      45deg,
+      rgba(224, 169, 92, 0.12) 0 2px,
+      transparent 2px 18px
+    );
+  --tema-corak-saiz: 120px 120px, 120px 120px, 60px 60px;
+  --tema-corak-legap: 0.7;
+  --tema-anjak-x: -120px;
+  --tema-anjak-y: -120px;
+  --tema-laju: 60s;
+}
+[data-tema="batik-nusantara"] .tema-cahaya {
+  background: radial-gradient(60% 50% at 50% 20%, rgba(255, 200, 130, 0.25), transparent 75%);
+}
+
+/* Songket Diraja */
+[data-tema="songket-diraja"] .tema-asas {
+  background: linear-gradient(150deg, #170a24 0%, #331554 55%, #48206f 100%);
+}
+[data-tema="songket-diraja"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(45deg, rgba(232, 196, 106, 0.22) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(-45deg, rgba(232, 196, 106, 0.22) 0 1px, transparent 1px 22px),
+    radial-gradient(circle at 50% 50%, rgba(232, 196, 106, 0.3) 0 3px, transparent 4px);
+  --tema-corak-saiz: 44px 44px, 44px 44px, 88px 88px;
+  --tema-corak-legap: 0.6;
+  --tema-anjak-x: -88px;
+  --tema-anjak-y: -88px;
+  --tema-laju: 50s;
+}
+[data-tema="songket-diraja"] .tema-cahaya {
+  background: radial-gradient(45% 40% at 70% 15%, rgba(255, 220, 150, 0.28), transparent 70%);
+}
+
+/* Pasir Gurun */
+[data-tema="pasir-gurun"] .tema-asas {
+  background: linear-gradient(180deg, #241608 0%, #6d4520 55%, #c9975a 100%);
+}
+[data-tema="pasir-gurun"] .tema-corak {
+  --tema-corak: repeating-linear-gradient(
+    8deg,
+    rgba(255, 231, 196, 0.14) 0 3px,
+    transparent 3px 30px
+  );
+  --tema-corak-saiz: 300px 300px;
+  --tema-corak-legap: 0.7;
+  --tema-anjak-x: -180px;
+  --tema-anjak-y: -40px;
+  --tema-laju: 40s;
+}
+[data-tema="pasir-gurun"] .tema-cahaya {
+  background: radial-gradient(40% 35% at 70% 15%, rgba(255, 224, 170, 0.4), transparent 70%);
+}
+
+/* Sakura Fajar */
+[data-tema="sakura-fajar"] .tema-asas {
+  background: linear-gradient(180deg, #2a1220 0%, #7a3355 50%, #d98aa8 100%);
+}
+[data-tema="sakura-fajar"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 30% 20%, rgba(255, 214, 232, 0.5) 0 3px, transparent 4px),
+    radial-gradient(circle at 70% 60%, rgba(255, 190, 214, 0.4) 0 5px, transparent 6px),
+    radial-gradient(circle at 15% 80%, rgba(255, 235, 245, 0.35) 0 2px, transparent 3px);
+  --tema-corak-saiz: 180px 180px, 260px 260px, 140px 140px;
+  --tema-corak-legap: 0.75;
+  --tema-anjak-x: 120px;
+  --tema-anjak-y: -180px;
+  --tema-laju: 45s;
+}
+[data-tema="sakura-fajar"] .tema-cahaya {
+  background: radial-gradient(50% 40% at 40% 85%, rgba(255, 200, 220, 0.35), transparent 75%);
+}
+
+/* Nebula Ungu */
+[data-tema="nebula-ungu"] .tema-asas {
+  background:
+    radial-gradient(60% 50% at 20% 20%, rgba(120, 60, 200, 0.55), transparent 70%),
+    radial-gradient(50% 45% at 80% 70%, rgba(200, 70, 160, 0.4), transparent 70%),
+    linear-gradient(180deg, #0a0618 0%, #150a2e 100%);
+}
+[data-tema="nebula-ungu"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.85) 0 1px, transparent 2px),
+    radial-gradient(circle at 65% 70%, rgba(255, 255, 255, 0.6) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.5) 0 1px, transparent 2px);
+  --tema-corak-saiz: 160px 160px, 240px 240px, 320px 320px;
+  --tema-corak-legap: 0.9;
+  --tema-anjak-x: -80px;
+  --tema-anjak-y: -120px;
+  --tema-laju: 90s;
+}
+[data-tema="nebula-ungu"] .tema-cahaya {
+  background: radial-gradient(35% 30% at 60% 30%, rgba(167, 139, 250, 0.35), transparent 70%);
+}
+
+/* Neon Kota */
+[data-tema="neon-kota"] .tema-asas {
+  background: linear-gradient(180deg, #07040f 0%, #1a0730 60%, #2b0b3a 100%);
+}
+[data-tema="neon-kota"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(90deg, rgba(34, 211, 238, 0.22) 0 1px, transparent 1px 60px),
+    repeating-linear-gradient(0deg, rgba(236, 72, 153, 0.18) 0 1px, transparent 1px 60px);
+  --tema-corak-saiz: 60px 60px;
+  --tema-corak-legap: 0.55;
+  --tema-anjak-x: -60px;
+  --tema-anjak-y: -60px;
+  --tema-laju: 18s;
+}
+[data-tema="neon-kota"] .tema-cahaya {
+  background:
+    radial-gradient(35% 25% at 20% 80%, rgba(34, 211, 238, 0.35), transparent 70%),
+    radial-gradient(35% 25% at 80% 20%, rgba(236, 72, 153, 0.3), transparent 70%);
+}
+
+/* Salji Utara */
+[data-tema="salji-utara"] .tema-asas {
+  background: linear-gradient(180deg, #0a1420 0%, #1b3550 55%, #33607f 100%);
+}
+[data-tema="salji-utara"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.5) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.35) 0 1.5px, transparent 3px);
+  --tema-corak-saiz: 130px 130px, 200px 200px;
+  --tema-corak-legap: 0.7;
+  --tema-anjak-x: -40px;
+  --tema-anjak-y: 200px;
+  --tema-laju: 30s;
+}
+[data-tema="salji-utara"] .tema-cahaya {
+  background: radial-gradient(60% 40% at 50% 0%, rgba(191, 230, 255, 0.35), transparent 75%);
+}
+
+/* Kopi Petang */
+[data-tema="kopi-petang"] .tema-asas {
+  background: linear-gradient(165deg, #170f0a 0%, #3b2517 55%, #5c3a24 100%);
+}
+[data-tema="kopi-petang"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(
+      100deg,
+      rgba(217, 168, 108, 0.14) 0 2px,
+      transparent 2px 16px
+    ),
+    radial-gradient(circle at 60% 40%, rgba(217, 168, 108, 0.18) 0 8px, transparent 9px);
+  --tema-corak-saiz: 160px 160px, 220px 220px;
+  --tema-corak-legap: 0.6;
+  --tema-anjak-x: -160px;
+  --tema-anjak-y: -80px;
+  --tema-laju: 65s;
+}
+[data-tema="kopi-petang"] .tema-cahaya {
+  background: radial-gradient(45% 40% at 30% 20%, rgba(255, 210, 150, 0.28), transparent 75%);
+}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, Music, ScanLine, VolumeX, X } from "lucide-react";
 import { useAudioApp } from "@/lib/audio";
+import TemaPilih from "@/components/TemaPilih";
 
 const pautan = [
   { to: "/kamera", label: "Kamera Peka" },
@@ -54,6 +55,7 @@ export default function SiteNav() {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <TemaPilih />
             <button
               type="button"
               onClick={() => {
