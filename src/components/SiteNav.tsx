@@ -55,6 +55,7 @@ export default function SiteNav() {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <TemaPilih />
             <button
               type="button"
               onClick={() => {
