@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useTema } from "@/lib/tema";
 
 const VIDEO_SRC =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_115001_bcdaa3b4-03de-47e7-ad63-ae3e392c32d4.mp4";
@@ -6,7 +7,7 @@ const VIDEO_SRC =
 const FADE_MS = 500;
 const FADE_OUT_LEAD = 0.55;
 
-export default function VideoBackground() {
+function VideoLatar() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const rafRef = useRef<number | null>(null);
   const fadingOutRef = useRef(false);
@@ -94,5 +95,27 @@ export default function VideoBackground() {
       />
       <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
     </>
+  );
+}
+
+/** Latar berdasarkan tema pilihan pengguna: video sinematik atau corak CSS. */
+export default function VideoBackground() {
+  const { tema } = useTema();
+
+  if (tema === "sinematik") {
+    return (
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <VideoLatar />
+      </div>
+    );
+  }
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div className="tema-asas" />
+      <div className="tema-corak" />
+      <div className="tema-cahaya" />
+      <div className="tema-tudung" />
+    </div>
   );
 }

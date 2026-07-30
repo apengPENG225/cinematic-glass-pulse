@@ -45,7 +45,7 @@ export const TEMA_SENARAI: Tema[] = [
     id: "batik-nusantara",
     nama: "Batik Nusantara",
     huraian: "Corak batik berulang, emas gangsa",
-    swatch: ["#1a0f08", "#5c2f16", "#e0a martı"],
+    swatch: ["#1a0f08", "#5c2f16", "#e0a95c"],
   },
   {
     id: "songket-diraja",
