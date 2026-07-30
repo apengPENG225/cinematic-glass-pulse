@@ -294,8 +294,7 @@
 
 /* Rimba Zamrud */
 [data-tema="rimba-zamrud"] .tema-asas {
-  background: radial-gradient(90% 70% at 50% 0%, #12elt 0%, transparent 0%),
-    linear-gradient(180deg, #04140d 0%, #0d3325 60%, #12523a 100%);
+  background: linear-gradient(180deg, #04140d 0%, #0d3325 60%, #12523a 100%);
 }
 [data-tema="rimba-zamrud"] .tema-corak {
   --tema-corak:
