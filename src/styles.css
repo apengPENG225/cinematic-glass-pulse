@@ -489,7 +489,6 @@
 
 .tema-zarah {
   inset: -10%;
-  overflow: hidden;
 }
 
 .tema-zarah::before,
@@ -497,7 +496,6 @@
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 50%;
   background: transparent;
   opacity: var(--tema-zarah-legap, 0.7);
   animation: var(--tema-zarah-anim, tema-kelip 4s ease-in-out infinite);
