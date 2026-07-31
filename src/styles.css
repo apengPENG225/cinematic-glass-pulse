@@ -488,14 +488,17 @@
 }
 
 .tema-zarah {
-  inset: -10%;
+  inset: 0;
 }
 
 .tema-zarah::before,
 .tema-zarah::after {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
   background: transparent;
   opacity: var(--tema-zarah-legap, 0.7);
   animation: var(--tema-zarah-anim, tema-kelip 4s ease-in-out infinite);
