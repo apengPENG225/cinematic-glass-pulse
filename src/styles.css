@@ -564,6 +564,27 @@
   50% { opacity: 0.85; transform: scale(1.08) rotate(5deg); }
 }
 
+@keyframes tema-ombak-x-bg {
+  0%, 100% { background-position: 0 0; }
+  50% { background-position: -40px 0; }
+}
+
+@keyframes tema-ombak-y-bg {
+  0%, 100% { background-position: 0 0; }
+  50% { background-position: 0 -30px; }
+}
+
+@keyframes tema-kabus-bg {
+  0% { background-position: 0 0; opacity: 0.4; }
+  50% { background-position: 30px 0; opacity: 0.7; }
+  100% { background-position: 0 0; opacity: 0.4; }
+}
+
+@keyframes tema-putar-bg {
+  0% { background-position: 0 0; }
+  100% { background-position: 120px 60px; }
+}
+
 /* --- Penambahbaikan tema sedia ada --- */
 
 /* Ufuk Senja */
