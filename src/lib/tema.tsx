@@ -87,7 +87,43 @@ export const TEMA_SENARAI: Tema[] = [
     id: "kopi-petang",
     nama: "Kopi Petang",
     huraian: "Coklat suam, tenang dan mesra",
-    swatch: ["#170f0a", "#4a2f1f", "#d9a86c"],
+    swatch: ["#120a06", "#4a2e1c", "#e8c79a"],
+  },
+  {
+    id: "ombak-pantai",
+    nama: "Ombak Pantai",
+    huraian: "Gelombang biru berbuih di tepian pantai",
+    swatch: ["#021520", "#063a52", "#78e6ff"],
+  },
+  {
+    id: "kelip-kelip-rimba",
+    nama: "Kelip-kelip Rimba",
+    huraian: "Cahaya kelip-kelip dalam hutan gelap",
+    swatch: ["#020c06", "#0a3324", "#c8ff96"],
+  },
+  {
+    id: "bunga-raya",
+    nama: "Bunga Raya",
+    huraian: "Kelopak merah jambu melayang lembut",
+    swatch: ["#1a080c", "#7a2230", "#ffa0a8"],
+  },
+  {
+    id: "wau-bulan",
+    nama: "Wau Bulan",
+    huraian: "Corang wau dan sinar bulan malam",
+    swatch: ["#080620", "#2a1a60", "#e8c46a"],
+  },
+  {
+    id: "kabus-pagi",
+    nama: "Kabus Pagi",
+    huraian: "Kabus lembut biru waktu fajar",
+    swatch: ["#0a1828", "#1a3350", "#bfe6ff"],
+  },
+  {
+    id: "hujan-emas",
+    nama: "Hujan Emas",
+    huraian: "Hujan cahaya keemasan yang tenang",
+    swatch: ["#120a04", "#4a2e10", "#ffe6a0"],
   },
 ];
 
