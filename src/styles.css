@@ -475,3 +475,702 @@
 [data-tema="kopi-petang"] .tema-cahaya {
   background: radial-gradient(45% 40% at 30% 20%, rgba(255, 210, 150, 0.28), transparent 75%);
 }
+
+/* =========================================================
+   e-MuNsi: Tema Lanjutan — lapisan zarah, objek & animasi
+   ========================================================= */
+
+/* Lapisan tambahan */
+.tema-zarah,
+.tema-objek {
+  position: absolute;
+  pointer-events: none;
+}
+
+.tema-zarah {
+  inset: -10%;
+  overflow: hidden;
+}
+
+.tema-zarah::before,
+.tema-zarah::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: transparent;
+  opacity: var(--tema-zarah-legap, 0.7);
+  animation: var(--tema-zarah-anim, tema-kelip 4s ease-in-out infinite);
+  will-change: transform, opacity;
+}
+
+.tema-objek {
+  inset: -15%;
+  opacity: var(--tema-objek-legap, 0.5);
+  animation: var(--tema-objek-anim, tema-putar 120s linear infinite);
+  filter: blur(var(--tema-objek-blur, 0px));
+  will-change: transform, opacity;
+}
+
+/* Keyframes tambahan */
+@keyframes tema-putar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tema-kelip {
+  0%, 100% { opacity: 0.25; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes tema-terapung {
+  0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+  25% { transform: translateY(-18px) translateX(12px) rotate(2deg); }
+  50% { transform: translateY(-8px) translateX(22px) rotate(-1deg); }
+  75% { transform: translateY(14px) translateX(8px) rotate(1deg); }
+}
+
+@keyframes tema-jatuh {
+  0% { transform: translateY(-120%) rotate(0deg); }
+  100% { transform: translateY(120%) rotate(360deg); }
+}
+
+@keyframes tema-naik {
+  0% { transform: translateY(120%) scale(0.8); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-120%) scale(1.1); opacity: 0; }
+}
+
+@keyframes tema-ombak-x {
+  0%, 100% { transform: translateX(0) scaleY(1); }
+  50% { transform: translateX(-40px) scaleY(1.08); }
+}
+
+@keyframes tema-ombak-y {
+  0%, 100% { transform: translateY(0) scaleX(1); }
+  50% { transform: translateY(-30px) scaleX(1.05); }
+}
+
+@keyframes tema-kabus {
+  0% { transform: translateX(-10%) scale(1); opacity: 0.4; }
+  50% { transform: translateX(5%) scale(1.05); opacity: 0.7; }
+  100% { transform: translateX(-10%) scale(1); opacity: 0.4; }
+}
+
+@keyframes tema-sinar {
+  0%, 100% { opacity: 0.45; transform: scale(1) rotate(-5deg); }
+  50% { opacity: 0.85; transform: scale(1.08) rotate(5deg); }
+}
+
+/* --- Penambahbaikan tema sedia ada --- */
+
+/* Ufuk Senja */
+[data-tema="ufuk-senja"] .tema-asas {
+  background:
+    radial-gradient(60% 35% at 50% 78%, rgba(255, 160, 80, 0.55) 0%, transparent 70%),
+    linear-gradient(180deg, #2a1020 0%, #6d2436 35%, #c85a2c 70%, #f0a35e 100%);
+}
+[data-tema="ufuk-senja"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(180deg, rgba(255, 214, 170, 0.22) 0px, rgba(255, 214, 170, 0.22) 2px, transparent 2px, transparent 22px),
+    radial-gradient(ellipse 80% 30% at 30% 65%, rgba(255, 200, 160, 0.25), transparent 70%),
+    radial-gradient(ellipse 60% 25% at 70% 70%, rgba(255, 180, 140, 0.2), transparent 70%);
+  --tema-corak-saiz: 100% 22px, 100% 100%, 100% 100%;
+  --tema-corak-legap: 0.85;
+  --tema-anjak-x: 0px;
+  --tema-anjak-y: -88px;
+  --tema-laju: 22s;
+}
+[data-tema="ufuk-senja"] .tema-cahaya {
+  background:
+    radial-gradient(45% 30% at 50% 82%, rgba(255, 190, 120, 0.65), transparent 70%),
+    radial-gradient(25% 25% at 20% 30%, rgba(255, 120, 150, 0.35), transparent 70%);
+  animation: tema-sinar 10s ease-in-out infinite;
+}
+[data-tema="ufuk-senja"] .tema-zarah::before {
+  box-shadow:
+    15vw 25vh 0 1px rgba(255, 220, 180, 0.8),
+    35vw 55vh 0 1.5px rgba(255, 200, 160, 0.7),
+    55vw 35vh 0 1px rgba(255, 230, 190, 0.6),
+    75vw 65vh 0 1.2px rgba(255, 210, 170, 0.75),
+    85vw 45vh 0 1px rgba(255, 220, 180, 0.6),
+    5vw 75vh 0 1.3px rgba(255, 200, 160, 0.7);
+  --tema-zarah-anim: tema-kelip 3s ease-in-out infinite;
+  --tema-zarah-legap: 0.9;
+}
+
+/* Laut Dalam */
+[data-tema="laut-dalam"] .tema-asas {
+  background:
+    radial-gradient(70% 50% at 50% 0%, rgba(11, 90, 110, 0.6) 0%, transparent 70%),
+    linear-gradient(180deg, #021018 0%, #052a40 40%, #084e66 100%);
+}
+[data-tema="laut-dalam"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(105deg, rgba(120, 230, 255, 0.12) 0 3px, transparent 3px 28px),
+    repeating-radial-gradient(circle at 30% 40%, rgba(79, 209, 197, 0.18) 0 2px, transparent 2px 48px),
+    repeating-linear-gradient(15deg, rgba(79, 209, 197, 0.08) 0 2px, transparent 2px 60px);
+  --tema-corak-saiz: 280px 280px, 520px 520px, 400px 400px;
+  --tema-corak-legap: 0.85;
+  --tema-anjak-x: -160px;
+  --tema-anjak-y: -100px;
+  --tema-laju: 42s;
+}
+[data-tema="laut-dalam"] .tema-cahaya {
+  background:
+    radial-gradient(55% 35% at 50% 5%, rgba(120, 240, 255, 0.45), transparent 70%),
+    radial-gradient(30% 30% at 80% 80%, rgba(79, 209, 197, 0.35), transparent 70%);
+  animation: tema-nafas 8s ease-in-out infinite;
+}
+[data-tema="laut-dalam"] .tema-objek {
+  background:
+    radial-gradient(ellipse 60% 12% at 20% 85%, rgba(79, 209, 197, 0.18), transparent 70%),
+    radial-gradient(ellipse 50% 10% at 70% 90%, rgba(120, 230, 255, 0.14), transparent 70%);
+  --tema-objek-anim: tema-ombak-x 9s ease-in-out infinite;
+  --tema-objek-legap: 0.9;
+}
+[data-tema="laut-dalam"] .tema-zarah::before {
+  box-shadow:
+    12vw 20vh 0 2px rgba(120, 240, 255, 0.7),
+    28vw 45vh 0 1.5px rgba(79, 209, 197, 0.6),
+    48vw 30vh 0 2.2px rgba(120, 240, 255, 0.55),
+    68vw 55vh 0 1.8px rgba(79, 209, 197, 0.65),
+    82vw 25vh 0 2px rgba(120, 240, 255, 0.5),
+    42vw 70vh 0 1.6px rgba(79, 209, 197, 0.6),
+    58vw 80vh 0 2px rgba(120, 240, 255, 0.55);
+  --tema-zarah-anim: tema-naik 14s linear infinite;
+  --tema-zarah-legap: 0.85;
+}
+[data-tema="laut-dalam"] .tema-zarah::after {
+  box-shadow:
+    8vw 60vh 0 1px rgba(255, 255, 255, 0.5),
+    22vw 15vh 0 1.2px rgba(255, 255, 255, 0.4),
+    38vw 75vh 0 1px rgba(255, 255, 255, 0.45),
+    62vw 20vh 0 1.3px rgba(255, 255, 255, 0.5),
+    78vw 65vh 0 1px rgba(255, 255, 255, 0.4),
+    92vw 40vh 0 1.2px rgba(255, 255, 255, 0.45);
+  --tema-zarah-anim: tema-kelip 2.5s ease-in-out infinite;
+  --tema-zarah-legap: 0.7;
+}
+
+/* Rimba Zamrud */
+[data-tema="rimba-zamrud"] .tema-asas {
+  background:
+    radial-gradient(60% 50% at 80% 10%, rgba(92, 224, 155, 0.25) 0%, transparent 70%),
+    linear-gradient(180deg, #02140c 0%, #0a2e20 50%, #104530 100%);
+}
+[data-tema="rimba-zamrud"] .tema-corak {
+  --tema-corak:
+    repeating-conic-gradient(from 0deg at 50% 50%, rgba(92, 224, 155, 0.12) 0deg 10deg, transparent 10deg 28deg),
+    radial-gradient(circle at 20% 30%, rgba(160, 255, 200, 0.15) 0 40px, transparent 100px);
+  --tema-corak-saiz: 260px 260px, 100% 100%;
+  --tema-corak-legap: 0.65;
+  --tema-anjak-x: -260px;
+  --tema-anjak-y: -260px;
+  --tema-laju: 55s;
+}
+[data-tema="rimba-zamrud"] .tema-cahaya {
+  background:
+    radial-gradient(35% 45% at 25% 10%, rgba(160, 255, 200, 0.45), transparent 70%),
+    radial-gradient(25% 25% at 75% 80%, rgba(92, 224, 155, 0.3), transparent 70%);
+  animation: tema-sinar 12s ease-in-out infinite;
+}
+[data-tema="rimba-zamrud"] .tema-zarah::before {
+  box-shadow:
+    10vw 20vh 0 2px rgba(200, 255, 180, 0.8),
+    25vw 50vh 0 1.5px rgba(180, 255, 160, 0.7),
+    45vw 35vh 0 2px rgba(200, 255, 180, 0.6),
+    65vw 60vh 0 1.8px rgba(180, 255, 160, 0.75),
+    80vw 25vh 0 2.2px rgba(200, 255, 180, 0.65),
+    55vw 75vh 0 1.6px rgba(180, 255, 160, 0.7);
+  --tema-zarah-anim: tema-terapung 8s ease-in-out infinite;
+  --tema-zarah-legap: 0.9;
+}
+
+/* Batik Nusantara */
+[data-tema="batik-nusantara"] .tema-asas {
+  background:
+    radial-gradient(50% 40% at 50% 20%, rgba(224, 169, 92, 0.25) 0%, transparent 70%),
+    linear-gradient(160deg, #140a05 0%, #351b0d 55%, #5c2f16 100%);
+}
+[data-tema="batik-nusantara"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 25% 25%, rgba(224, 169, 92, 0.45) 0 6px, transparent 7px),
+    radial-gradient(circle at 75% 75%, rgba(224, 169, 92, 0.3) 0 10px, transparent 11px),
+    repeating-linear-gradient(45deg, rgba(224, 169, 92, 0.18) 0 2px, transparent 2px 18px),
+    repeating-linear-gradient(-45deg, rgba(224, 169, 92, 0.12) 0 2px, transparent 2px 28px);
+  --tema-corak-saiz: 120px 120px, 120px 120px, 60px 60px, 80px 80px;
+  --tema-corak-legap: 0.85;
+  --tema-anjak-x: -120px;
+  --tema-anjak-y: -120px;
+  --tema-laju: 50s;
+}
+[data-tema="batik-nusantara"] .tema-cahaya {
+  background: radial-gradient(60% 50% at 50% 20%, rgba(255, 200, 130, 0.35), transparent 75%);
+  animation: tema-sinar 14s ease-in-out infinite;
+}
+[data-tema="batik-nusantara"] .tema-zarah::before {
+  box-shadow:
+    20vw 30vh 0 1px rgba(255, 210, 140, 0.7),
+    50vw 60vh 0 1.2px rgba(255, 200, 130, 0.6),
+    75vw 40vh 0 1px rgba(255, 210, 140, 0.65),
+    35vw 80vh 0 1.3px rgba(255, 200, 130, 0.55);
+  --tema-zarah-anim: tema-kelip 3s ease-in-out infinite;
+  --tema-zarah-legap: 0.8;
+}
+
+/* Songket Diraja */
+[data-tema="songket-diraja"] .tema-asas {
+  background:
+    radial-gradient(55% 45% at 70% 15%, rgba(232, 196, 106, 0.22) 0%, transparent 70%),
+    linear-gradient(150deg, #120724 0%, #2d124d 55%, #421a6b 100%);
+}
+[data-tema="songket-diraja"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(45deg, rgba(232, 196, 106, 0.28) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(-45deg, rgba(232, 196, 106, 0.28) 0 1px, transparent 1px 18px),
+    radial-gradient(circle at 50% 50%, rgba(232, 196, 106, 0.4) 0 3px, transparent 4px);
+  --tema-corak-saiz: 36px 36px, 36px 36px, 72px 72px;
+  --tema-corak-legap: 0.8;
+  --tema-anjak-x: -72px;
+  --tema-anjak-y: -72px;
+  --tema-laju: 38s;
+}
+[data-tema="songket-diraja"] .tema-cahaya {
+  background:
+    radial-gradient(45% 40% at 70% 15%, rgba(255, 220, 150, 0.4), transparent 70%),
+    radial-gradient(25% 25% at 30% 80%, rgba(232, 196, 106, 0.25), transparent 70%);
+  animation: tema-sinar 11s ease-in-out infinite;
+}
+[data-tema="songket-diraja"] .tema-zarah::before {
+  box-shadow:
+    15vw 25vh 0 1px rgba(255, 230, 160, 0.8),
+    40vw 55vh 0 1.2px rgba(255, 220, 140, 0.7),
+    65vw 35vh 0 1px rgba(255, 230, 160, 0.65),
+    85vw 70vh 0 1.3px rgba(255, 220, 140, 0.75);
+  --tema-zarah-anim: tema-kelip 2.8s ease-in-out infinite;
+  --tema-zarah-legap: 0.85;
+}
+
+/* Pasir Gurun */
+[data-tema="pasir-gurun"] .tema-asas {
+  background:
+    radial-gradient(50% 40% at 70% 15%, rgba(255, 224, 170, 0.35) 0%, transparent 70%),
+    linear-gradient(180deg, #1a0f06 0%, #5a3a1a 55%, #a87c4a 100%);
+}
+[data-tema="pasir-gurun"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(8deg, rgba(255, 231, 196, 0.2) 0 3px, transparent 3px 26px),
+    radial-gradient(ellipse 80% 30% at 30% 75%, rgba(255, 220, 180, 0.15), transparent 70%);
+  --tema-corak-saiz: 280px 280px, 100% 100%;
+  --tema-corak-legap: 0.85;
+  --tema-anjak-x: -200px;
+  --tema-anjak-y: -50px;
+  --tema-laju: 35s;
+}
+[data-tema="pasir-gurun"] .tema-cahaya {
+  background: radial-gradient(40% 35% at 70% 15%, rgba(255, 224, 170, 0.5), transparent 70%);
+  animation: tema-sinar 13s ease-in-out infinite;
+}
+[data-tema="pasir-gurun"] .tema-objek {
+  background:
+    radial-gradient(ellipse 70% 25% at 20% 80%, rgba(255, 220, 180, 0.18), transparent 70%),
+    radial-gradient(ellipse 60% 20% at 80% 85%, rgba(255, 210, 160, 0.14), transparent 70%);
+  --tema-objek-anim: tema-ombak-x 16s ease-in-out infinite;
+  --tema-objek-legap: 0.85;
+}
+
+/* Sakura Fajar */
+[data-tema="sakura-fajar"] .tema-asas {
+  background:
+    radial-gradient(60% 45% at 40% 85%, rgba(255, 200, 220, 0.35) 0%, transparent 70%),
+    linear-gradient(180deg, #1a0a14 0%, #5c2440 50%, #b86a88 100%);
+}
+[data-tema="sakura-fajar"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 30% 20%, rgba(255, 214, 232, 0.55) 0 3px, transparent 4px),
+    radial-gradient(circle at 70% 60%, rgba(255, 190, 214, 0.45) 0 5px, transparent 6px),
+    radial-gradient(circle at 15% 80%, rgba(255, 235, 245, 0.4) 0 2px, transparent 3px);
+  --tema-corak-saiz: 160px 160px, 240px 240px, 120px 120px;
+  --tema-corak-legap: 0.85;
+  --tema-anjak-x: 140px;
+  --tema-anjak-y: -200px;
+  --tema-laju: 38s;
+}
+[data-tema="sakura-fajar"] .tema-cahaya {
+  background:
+    radial-gradient(50% 40% at 40% 85%, rgba(255, 200, 220, 0.45), transparent 75%),
+    radial-gradient(30% 25% at 80% 20%, rgba(255, 180, 210, 0.3), transparent 70%);
+  animation: tema-nafas 9s ease-in-out infinite;
+}
+[data-tema="sakura-fajar"] .tema-zarah::before {
+  box-shadow:
+    10vw 10vh 0 3px rgba(255, 214, 232, 0.75),
+    30vw 40vh 0 2.5px rgba(255, 200, 220, 0.65),
+    55vw 20vh 0 3px rgba(255, 214, 232, 0.7),
+    75vw 55vh 0 2.5px rgba(255, 200, 220, 0.6),
+    45vw 75vh 0 3px rgba(255, 214, 232, 0.65);
+  --tema-zarah-anim: tema-jatuh 18s linear infinite;
+  --tema-zarah-legap: 0.8;
+}
+
+/* Nebula Ungu */
+[data-tema="nebula-ungu"] .tema-asas {
+  background:
+    radial-gradient(70% 60% at 30% 25%, rgba(140, 80, 220, 0.6) 0%, transparent 70%),
+    radial-gradient(60% 55% at 80% 75%, rgba(220, 80, 180, 0.45) 0%, transparent 70%),
+    linear-gradient(180deg, #070418 0%, #12082a 100%);
+}
+[data-tema="nebula-ungu"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.9) 0 1px, transparent 2px),
+    radial-gradient(circle at 65% 70%, rgba(255, 255, 255, 0.7) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.6) 0 1px, transparent 2px);
+  --tema-corak-saiz: 140px 140px, 220px 220px, 300px 300px;
+  --tema-corak-legap: 1;
+  --tema-anjak-x: -100px;
+  --tema-anjak-y: -140px;
+  --tema-laju: 75s;
+}
+[data-tema="nebula-ungu"] .tema-cahaya {
+  background:
+    radial-gradient(35% 30% at 60% 30%, rgba(167, 139, 250, 0.45), transparent 70%),
+    radial-gradient(25% 25% at 25% 70%, rgba(236, 72, 153, 0.3), transparent 70%);
+  animation: tema-nafas 10s ease-in-out infinite;
+}
+[data-tema="nebula-ungu"] .tema-objek {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(140, 80, 220, 0.25), transparent 50%),
+    radial-gradient(circle at 75% 70%, rgba(220, 80, 180, 0.2), transparent 50%);
+  --tema-objek-anim: tema-putar 90s linear infinite;
+  --tema-objek-blur: 40px;
+  --tema-objek-legap: 0.9;
+}
+
+/* Neon Kota */
+[data-tema="neon-kota"] .tema-asas {
+  background:
+    radial-gradient(60% 50% at 50% 100%, rgba(34, 211, 238, 0.25) 0%, transparent 70%),
+    linear-gradient(180deg, #04020a 0%, #120530 60%, #1e0840 100%);
+}
+[data-tema="neon-kota"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(90deg, rgba(34, 211, 238, 0.3) 0 1px, transparent 1px 50px),
+    repeating-linear-gradient(0deg, rgba(236, 72, 153, 0.24) 0 1px, transparent 1px 50px);
+  --tema-corak-saiz: 50px 50px;
+  --tema-corak-legap: 0.75;
+  --tema-anjak-x: -50px;
+  --tema-anjak-y: -50px;
+  --tema-laju: 12s;
+}
+[data-tema="neon-kota"] .tema-cahaya {
+  background:
+    radial-gradient(35% 25% at 20% 80%, rgba(34, 211, 238, 0.45), transparent 70%),
+    radial-gradient(35% 25% at 80% 20%, rgba(236, 72, 153, 0.4), transparent 70%);
+  animation: tema-sinar 6s ease-in-out infinite;
+}
+[data-tema="neon-kota"] .tema-zarah::before {
+  box-shadow:
+    15vw 30vh 0 2px rgba(34, 211, 238, 0.8),
+    45vw 60vh 0 2px rgba(236, 72, 153, 0.75),
+    75vw 25vh 0 2px rgba(34, 211, 238, 0.7),
+    30vw 80vh 0 2px rgba(236, 72, 153, 0.65);
+  --tema-zarah-anim: tema-kelip 1.5s ease-in-out infinite;
+  --tema-zarah-legap: 0.9;
+}
+
+/* Salji Utara */
+[data-tema="salji-utara"] .tema-asas {
+  background:
+    radial-gradient(70% 50% at 50% 0%, rgba(80, 150, 200, 0.45) 0%, transparent 70%),
+    linear-gradient(180deg, #081220 0%, #153050 55%, #265070 100%);
+}
+[data-tema="salji-utara"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.6) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.45) 0 1.5px, transparent 3px);
+  --tema-corak-saiz: 110px 110px, 180px 180px;
+  --tema-corak-legap: 0.85;
+  --tema-anjak-x: -50px;
+  --tema-anjak-y: 220px;
+  --tema-laju: 25s;
+}
+[data-tema="salji-utara"] .tema-cahaya {
+  background: radial-gradient(60% 40% at 50% 0%, rgba(191, 230, 255, 0.45), transparent 75%);
+  animation: tema-nafas 11s ease-in-out infinite;
+}
+[data-tema="salji-utara"] .tema-zarah::before {
+  box-shadow:
+    8vw 15vh 0 2px rgba(255, 255, 255, 0.8),
+    25vw 40vh 0 1.5px rgba(255, 255, 255, 0.7),
+    42vw 25vh 0 2px rgba(255, 255, 255, 0.65),
+    60vw 55vh 0 1.8px rgba(255, 255, 255, 0.75),
+    78vw 35vh 0 2px rgba(255, 255, 255, 0.6),
+    90vw 70vh 0 1.5px rgba(255, 255, 255, 0.7);
+  --tema-zarah-anim: tema-jatuh 12s linear infinite;
+  --tema-zarah-legap: 0.85;
+}
+
+/* Kopi Petang */
+[data-tema="kopi-petang"] .tema-asas {
+  background:
+    radial-gradient(55% 45% at 30% 20%, rgba(217, 168, 108, 0.35) 0%, transparent 70%),
+    linear-gradient(165deg, #120a06 0%, #2e1d12 55%, #4a2e1c 100%);
+}
+[data-tema="kopi-petang"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(100deg, rgba(217, 168, 108, 0.2) 0 2px, transparent 2px 16px),
+    radial-gradient(circle at 60% 40%, rgba(217, 168, 108, 0.22) 0 8px, transparent 9px);
+  --tema-corak-saiz: 140px 140px, 200px 200px;
+  --tema-corak-legap: 0.75;
+  --tema-anjak-x: -180px;
+  --tema-anjak-y: -90px;
+  --tema-laju: 55s;
+}
+[data-tema="kopi-petang"] .tema-cahaya {
+  background:
+    radial-gradient(45% 40% at 30% 20%, rgba(255, 210, 150, 0.38), transparent 75%),
+    radial-gradient(30% 30% at 70% 70%, rgba(217, 168, 108, 0.25), transparent 70%);
+  animation: tema-sinar 14s ease-in-out infinite;
+}
+[data-tema="kopi-petang"] .tema-objek {
+  background:
+    radial-gradient(ellipse 30% 60% at 25% 60%, rgba(217, 168, 108, 0.12), transparent 70%),
+    radial-gradient(ellipse 25% 50% at 70% 50%, rgba(217, 168, 108, 0.1), transparent 70%);
+  --tema-objek-anim: tema-ombak-y 18s ease-in-out infinite;
+  --tema-objek-blur: 25px;
+  --tema-objek-legap: 0.8;
+}
+
+/* --- Tema baharu --- */
+
+/* Ombak Pantai */
+[data-tema="ombak-pantai"] .tema-asas {
+  background:
+    radial-gradient(60% 40% at 50% 100%, rgba(79, 209, 197, 0.35) 0%, transparent 70%),
+    linear-gradient(180deg, #021520 0%, #063a52 50%, #0a5a6e 100%);
+}
+[data-tema="ombak-pantai"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(175deg, rgba(120, 230, 255, 0.15) 0 4px, transparent 4px 36px),
+    repeating-linear-gradient(5deg, rgba(79, 209, 197, 0.1) 0 3px, transparent 3px 48px);
+  --tema-corak-saiz: 300px 300px, 420px 420px;
+  --tema-corak-legap: 0.8;
+  --tema-anjak-x: -120px;
+  --tema-anjak-y: 80px;
+  --tema-laju: 28s;
+}
+[data-tema="ombak-pantai"] .tema-cahaya {
+  background:
+    radial-gradient(50% 25% at 50% 100%, rgba(120, 240, 255, 0.5), transparent 70%),
+    radial-gradient(30% 30% at 20% 30%, rgba(79, 209, 197, 0.3), transparent 70%);
+  animation: tema-ombak-x 8s ease-in-out infinite;
+}
+[data-tema="ombak-pantai"] .tema-objek {
+  background:
+    radial-gradient(ellipse 80% 18% at 30% 88%, rgba(120, 240, 255, 0.2), transparent 70%),
+    radial-gradient(ellipse 70% 15% at 70% 92%, rgba(79, 209, 197, 0.16), transparent 70%),
+    radial-gradient(ellipse 90% 20% at 50% 95%, rgba(120, 240, 255, 0.14), transparent 70%);
+  --tema-objek-anim: tema-ombak-x 10s ease-in-out infinite;
+  --tema-objek-legap: 0.95;
+}
+[data-tema="ombak-pantai"] .tema-zarah::before {
+  box-shadow:
+    12vw 85vh 0 2px rgba(255, 255, 255, 0.7),
+    28vw 88vh 0 1.5px rgba(255, 255, 255, 0.6),
+    48vw 90vh 0 2px rgba(255, 255, 255, 0.65),
+    68vw 86vh 0 1.8px rgba(255, 255, 255, 0.7),
+    82vw 89vh 0 1.5px rgba(255, 255, 255, 0.6);
+  --tema-zarah-anim: tema-terapung 5s ease-in-out infinite;
+  --tema-zarah-legap: 0.8;
+}
+
+/* Kelip-kelip Rimba */
+[data-tema="kelip-kelip-rimba"] .tema-asas {
+  background:
+    radial-gradient(50% 60% at 80% 90%, rgba(92, 224, 155, 0.15) 0%, transparent 70%),
+    linear-gradient(180deg, #020c06 0%, #061f14 60%, #0a3324 100%);
+}
+[data-tema="kelip-kelip-rimba"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(110deg, rgba(92, 224, 155, 0.08) 0 2px, transparent 2px 40px),
+    radial-gradient(ellipse 60% 80% at 10% 100%, rgba(92, 224, 155, 0.12), transparent 70%);
+  --tema-corak-saiz: 200px 200px, 100% 100%;
+  --tema-corak-legap: 0.65;
+  --tema-anjak-x: -80px;
+  --tema-anjak-y: -60px;
+  --tema-laju: 48s;
+}
+[data-tema="kelip-kelip-rimba"] .tema-cahaya {
+  background:
+    radial-gradient(30% 30% at 70% 20%, rgba(200, 255, 180, 0.35), transparent 70%),
+    radial-gradient(25% 25% at 30% 70%, rgba(92, 224, 155, 0.25), transparent 70%);
+  animation: tema-nafas 7s ease-in-out infinite;
+}
+[data-tema="kelip-kelip-rimba"] .tema-zarah::before {
+  box-shadow:
+    10vw 30vh 0 2px rgba(200, 255, 150, 0.9),
+    25vw 60vh 0 1.5px rgba(180, 255, 140, 0.8),
+    40vw 40vh 0 2px rgba(200, 255, 150, 0.75),
+    55vw 70vh 0 1.8px rgba(180, 255, 140, 0.85),
+    70vw 25vh 0 2px rgba(200, 255, 150, 0.7),
+    85vw 55vh 0 1.5px rgba(180, 255, 140, 0.8);
+  --tema-zarah-anim: tema-terapung 6s ease-in-out infinite;
+  --tema-zarah-legap: 1;
+}
+
+/* Bunga Raya */
+[data-tema="bunga-raya"] .tema-asas {
+  background:
+    radial-gradient(60% 50% at 50% 100%, rgba(232, 80, 100, 0.3) 0%, transparent 70%),
+    linear-gradient(180deg, #1a080c 0%, #4a1520 50%, #7a2230 100%);
+}
+[data-tema="bunga-raya"] .tema-corak {
+  --tema-corak:
+    radial-gradient(circle at 30% 30%, rgba(255, 120, 140, 0.35) 0 8px, transparent 24px),
+    radial-gradient(circle at 70% 70%, rgba(255, 160, 170, 0.25) 0 10px, transparent 28px);
+  --tema-corak-saiz: 180px 180px, 240px 240px;
+  --tema-corak-legap: 0.75;
+  --tema-anjak-x: -180px;
+  --tema-anjak-y: -120px;
+  --tema-laju: 50s;
+}
+[data-tema="bunga-raya"] .tema-cahaya {
+  background:
+    radial-gradient(45% 35% at 50% 100%, rgba(255, 140, 160, 0.4), transparent 70%),
+    radial-gradient(25% 25% at 20% 20%, rgba(255, 180, 190, 0.25), transparent 70%);
+  animation: tema-sinar 10s ease-in-out infinite;
+}
+[data-tema="bunga-raya"] .tema-zarah::before {
+  box-shadow:
+    15vw 10vh 0 3px rgba(255, 160, 170, 0.75),
+    35vw 45vh 0 2.5px rgba(255, 140, 160, 0.65),
+    55vw 25vh 0 3px rgba(255, 160, 170, 0.7),
+    75vw 60vh 0 2.5px rgba(255, 140, 160, 0.6),
+    50vw 80vh 0 3px rgba(255, 160, 170, 0.65);
+  --tema-zarah-anim: tema-jatuh 22s linear infinite;
+  --tema-zarah-legap: 0.8;
+}
+
+/* Wau Bulan */
+[data-tema="wau-bulan"] .tema-asas {
+  background:
+    radial-gradient(50% 50% at 50% 30%, rgba(120, 100, 220, 0.3) 0%, transparent 70%),
+    linear-gradient(180deg, #080620 0%, #1a1240 55%, #2a1a60 100%);
+}
+[data-tema="wau-bulan"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(60deg, rgba(167, 139, 250, 0.12) 0 2px, transparent 2px 50px),
+    repeating-linear-gradient(-60deg, rgba(167, 139, 250, 0.12) 0 2px, transparent 2px 50px),
+    radial-gradient(circle at 50% 50%, rgba(232, 196, 106, 0.25) 0 4px, transparent 5px);
+  --tema-corak-saiz: 80px 80px, 80px 80px, 160px 160px;
+  --tema-corak-legap: 0.7;
+  --tema-anjak-x: -80px;
+  --tema-anjak-y: 80px;
+  --tema-laju: 45s;
+}
+[data-tema="wau-bulan"] .tema-cahaya {
+  background:
+    radial-gradient(40% 40% at 50% 30%, rgba(180, 170, 255, 0.4), transparent 70%),
+    radial-gradient(25% 25% at 80% 80%, rgba(232, 196, 106, 0.25), transparent 70%);
+  animation: tema-sinar 12s ease-in-out infinite;
+}
+[data-tema="wau-bulan"] .tema-objek {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(200, 190, 255, 0.2), transparent 40%);
+  --tema-objek-anim: tema-nafas 10s ease-in-out infinite;
+  --tema-objek-blur: 30px;
+  --tema-objek-legap: 0.9;
+}
+[data-tema="wau-bulan"] .tema-zarah::before {
+  box-shadow:
+    20vw 20vh 0 1.5px rgba(255, 255, 255, 0.8),
+    40vw 50vh 0 1px rgba(255, 255, 255, 0.7),
+    60vw 30vh 0 1.2px rgba(255, 255, 255, 0.75),
+    80vw 60vh 0 1px rgba(255, 255, 255, 0.65);
+  --tema-zarah-anim: tema-kelip 3s ease-in-out infinite;
+  --tema-zarah-legap: 0.85;
+}
+
+/* Kabus Pagi */
+[data-tema="kabus-pagi"] .tema-asas {
+  background:
+    radial-gradient(70% 60% at 50% 0%, rgba(120, 180, 220, 0.4) 0%, transparent 70%),
+    linear-gradient(180deg, #0a1828 0%, #1a3350 55%, #2a4a70 100%);
+}
+[data-tema="kabus-pagi"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(180deg, rgba(180, 220, 255, 0.1) 0 2px, transparent 2px 60px),
+    repeating-linear-gradient(90deg, rgba(180, 220, 255, 0.08) 0 2px, transparent 2px 80px);
+  --tema-corak-saiz: 100% 60px, 80px 100%;
+  --tema-corak-legap: 0.55;
+  --tema-anjak-x: 60px;
+  --tema-anjak-y: -60px;
+  --tema-laju: 60s;
+}
+[data-tema="kabus-pagi"] .tema-cahaya {
+  background:
+    radial-gradient(60% 40% at 50% 0%, rgba(180, 220, 255, 0.45), transparent 70%),
+    radial-gradient(30% 30% at 80% 80%, rgba(120, 180, 220, 0.25), transparent 70%);
+  animation: tema-kabus 16s ease-in-out infinite;
+}
+[data-tema="kabus-pagi"] .tema-objek {
+  background:
+    radial-gradient(ellipse 80% 40% at 20% 80%, rgba(180, 220, 255, 0.15), transparent 70%),
+    radial-gradient(ellipse 70% 35% at 70% 85%, rgba(180, 220, 255, 0.12), transparent 70%);
+  --tema-objek-anim: tema-kabus 20s ease-in-out infinite;
+  --tema-objek-blur: 35px;
+  --tema-objek-legap: 0.9;
+}
+[data-tema="kabus-pagi"] .tema-zarah::before {
+  box-shadow:
+    15vw 25vh 0 1.5px rgba(200, 230, 255, 0.7),
+    35vw 55vh 0 1px rgba(200, 230, 255, 0.6),
+    55vw 35vh 0 1.2px rgba(200, 230, 255, 0.65),
+    75vw 65vh 0 1px rgba(200, 230, 255, 0.55);
+  --tema-zarah-anim: tema-kelip 4s ease-in-out infinite;
+  --tema-zarah-legap: 0.75;
+}
+
+/* Hujan Emas */
+[data-tema="hujan-emas"] .tema-asas {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(232, 196, 106, 0.35) 0%, transparent 70%),
+    linear-gradient(180deg, #120a04 0%, #2a1a08 55%, #4a2e10 100%);
+}
+[data-tema="hujan-emas"] .tema-corak {
+  --tema-corak:
+    repeating-linear-gradient(80deg, rgba(232, 196, 106, 0.15) 0 2px, transparent 2px 30px),
+    repeating-linear-gradient(100deg, rgba(255, 220, 150, 0.1) 0 2px, transparent 2px 40px);
+  --tema-corak-saiz: 240px 240px, 300px 300px;
+  --tema-corak-legap: 0.75;
+  --tema-anjak-x: -120px;
+  --tema-anjak-y: 160px;
+  --tema-laju: 22s;
+}
+[data-tema="hujan-emas"] .tema-cahaya {
+  background:
+    radial-gradient(50% 40% at 50% 0%, rgba(255, 220, 150, 0.45), transparent 70%),
+    radial-gradient(25% 25% at 80% 80%, rgba(232, 196, 106, 0.3), transparent 70%);
+  animation: tema-sinar 9s ease-in-out infinite;
+}
+[data-tema="hujan-emas"] .tema-zarah::before {
+  box-shadow:
+    10vw 10vh 0 1.5px rgba(255, 230, 160, 0.85),
+    25vw 35vh 0 1px rgba(255, 220, 140, 0.75),
+    40vw 20vh 0 1.3px rgba(255, 230, 160, 0.8),
+    55vw 50vh 0 1px rgba(255, 220, 140, 0.7),
+    70vw 30vh 0 1.2px rgba(255, 230, 160, 0.75),
+    85vw 60vh 0 1px rgba(255, 220, 140, 0.65);
+  --tema-zarah-anim: tema-jatuh 10s linear infinite;
+  --tema-zarah-legap: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tema-corak,
+  .tema-cahaya,
+  .tema-zarah,
+  .tema-objek {
+    animation: none !important;
+  }
+}
