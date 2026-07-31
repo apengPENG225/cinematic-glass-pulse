@@ -114,6 +114,8 @@ export default function VideoBackground() {
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <div className="tema-asas" />
       <div className="tema-corak" />
+      <div className="tema-objek" />
+      <div className="tema-zarah" />
       <div className="tema-cahaya" />
       <div className="tema-tudung" />
     </div>
