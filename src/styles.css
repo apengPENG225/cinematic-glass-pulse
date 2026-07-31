@@ -506,11 +506,12 @@
 }
 
 .tema-objek {
-  inset: -15%;
+  inset: 0;
+  background-size: 120% 120%;
   opacity: var(--tema-objek-legap, 0.5);
-  animation: var(--tema-objek-anim, tema-putar 120s linear infinite);
+  animation: var(--tema-objek-anim, tema-ombak-x-bg 16s ease-in-out infinite);
   filter: blur(var(--tema-objek-blur, 0px));
-  will-change: transform, opacity;
+  will-change: background-position, opacity;
 }
 
 /* Keyframes tambahan */
