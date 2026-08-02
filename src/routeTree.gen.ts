@@ -18,6 +18,7 @@ import { Route as ModulIndexRouteImport } from './routes/modul/index'
 import { Route as LatihanIndexRouteImport } from './routes/latihan/index'
 import { Route as ModulSlugRouteImport } from './routes/modul/$slug'
 import { Route as LatihanSlugRouteImport } from './routes/latihan/$slug'
+import { Route as AuthenticatedTerbukaRouteImport } from './routes/_authenticated/terbuka'
 import { Route as AuthenticatedBicaraIndexRouteImport } from './routes/_authenticated/bicara/index'
 import { Route as AuthenticatedBicaraKodRouteImport } from './routes/_authenticated/bicara/$kod'
 
@@ -65,6 +66,11 @@ const LatihanSlugRoute = LatihanSlugRouteImport.update({
   path: '/latihan/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTerbukaRoute = AuthenticatedTerbukaRouteImport.update({
+  id: '/terbuka',
+  path: '/terbuka',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBicaraIndexRoute =
   AuthenticatedBicaraIndexRouteImport.update({
     id: '/bicara/',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan/': typeof LatihanIndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan': typeof LatihanIndexRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan/': typeof LatihanIndexRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/kamera'
     | '/sitemap.xml'
+    | '/terbuka'
     | '/latihan/$slug'
     | '/modul/$slug'
     | '/latihan/'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/kamera'
     | '/sitemap.xml'
+    | '/terbuka'
     | '/latihan/$slug'
     | '/modul/$slug'
     | '/latihan'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/kamera'
     | '/sitemap.xml'
+    | '/_authenticated/terbuka'
     | '/latihan/$slug'
     | '/modul/$slug'
     | '/latihan/'
@@ -232,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LatihanSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/terbuka': {
+      id: '/_authenticated/terbuka'
+      path: '/terbuka'
+      fullPath: '/terbuka'
+      preLoaderRoute: typeof AuthenticatedTerbukaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/bicara/': {
       id: '/_authenticated/bicara/'
       path: '/bicara'
@@ -250,11 +269,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedTerbukaRoute: typeof AuthenticatedTerbukaRoute
   AuthenticatedBicaraKodRoute: typeof AuthenticatedBicaraKodRoute
   AuthenticatedBicaraIndexRoute: typeof AuthenticatedBicaraIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedTerbukaRoute: AuthenticatedTerbukaRoute,
   AuthenticatedBicaraKodRoute: AuthenticatedBicaraKodRoute,
   AuthenticatedBicaraIndexRoute: AuthenticatedBicaraIndexRoute,
 }
