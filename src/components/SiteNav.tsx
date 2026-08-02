@@ -8,6 +8,8 @@ const pautan = [
   { to: "/kamera", label: "Kamera Peka" },
   { to: "/modul", label: "Modul" },
   { to: "/latihan", label: "Latihan Kendiri" },
+  { to: "/bicara", label: "Ruang Bicara" },
+  { to: "/terbuka", label: "Ruang Terbuka" },
 ] as const;
 
 export default function SiteNav() {
@@ -20,7 +22,7 @@ export default function SiteNav() {
     <nav className="relative z-30 px-4 sm:px-6 py-4 sm:py-6">
       <div className="rounded-3xl sm:rounded-full px-4 sm:px-6 py-3 max-w-5xl mx-auto liquid-glass">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:flex lg:justify-between">
-          <div className="flex min-w-0 items-center gap-8">
+          <div className="flex min-w-0 items-center gap-6">
             <Link
               to="/"
               onClick={() => {
@@ -32,7 +34,7 @@ export default function SiteNav() {
               <ScanLine size={22} className="shrink-0" />
               <span className="truncate">e-MuNsi</span>
             </Link>
-            <div className="hidden lg:flex items-center gap-8">
+            <div className="hidden lg:flex items-center gap-6">
               {pautan.map((p) => (
                 <Link
                   key={p.to}

@@ -11,11 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as KameraRouteImport } from './routes/kamera'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ModulIndexRouteImport } from './routes/modul/index'
 import { Route as LatihanIndexRouteImport } from './routes/latihan/index'
 import { Route as ModulSlugRouteImport } from './routes/modul/$slug'
 import { Route as LatihanSlugRouteImport } from './routes/latihan/$slug'
+import { Route as AuthenticatedTerbukaRouteImport } from './routes/_authenticated/terbuka'
+import { Route as AuthenticatedBicaraIndexRouteImport } from './routes/_authenticated/bicara/index'
+import { Route as AuthenticatedBicaraKodRouteImport } from './routes/_authenticated/bicara/$kod'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -25,6 +30,15 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const KameraRoute = KameraRouteImport.update({
   id: '/kamera',
   path: '/kamera',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -52,67 +66,111 @@ const LatihanSlugRoute = LatihanSlugRouteImport.update({
   path: '/latihan/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTerbukaRoute = AuthenticatedTerbukaRouteImport.update({
+  id: '/terbuka',
+  path: '/terbuka',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBicaraIndexRoute =
+  AuthenticatedBicaraIndexRouteImport.update({
+    id: '/bicara/',
+    path: '/bicara/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBicaraKodRoute = AuthenticatedBicaraKodRouteImport.update({
+  id: '/bicara/$kod',
+  path: '/bicara/$kod',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
+  '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
+  '/bicara/': typeof AuthenticatedBicaraIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan': typeof LatihanIndexRoute
   '/modul': typeof ModulIndexRoute
+  '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
+  '/bicara': typeof AuthenticatedBicaraIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
+  '/_authenticated/bicara/$kod': typeof AuthenticatedBicaraKodRoute
+  '/_authenticated/bicara/': typeof AuthenticatedBicaraIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/kamera'
     | '/sitemap.xml'
+    | '/terbuka'
     | '/latihan/$slug'
     | '/modul/$slug'
     | '/latihan/'
     | '/modul/'
+    | '/bicara/$kod'
+    | '/bicara/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/kamera'
     | '/sitemap.xml'
+    | '/terbuka'
     | '/latihan/$slug'
     | '/modul/$slug'
     | '/latihan'
     | '/modul'
+    | '/bicara/$kod'
+    | '/bicara'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/kamera'
     | '/sitemap.xml'
+    | '/_authenticated/terbuka'
     | '/latihan/$slug'
     | '/modul/$slug'
     | '/latihan/'
     | '/modul/'
+    | '/_authenticated/bicara/$kod'
+    | '/_authenticated/bicara/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   KameraRoute: typeof KameraRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   LatihanSlugRoute: typeof LatihanSlugRoute
@@ -135,6 +193,20 @@ declare module '@tanstack/react-router' {
       path: '/kamera'
       fullPath: '/kamera'
       preLoaderRoute: typeof KameraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -172,11 +244,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LatihanSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/terbuka': {
+      id: '/_authenticated/terbuka'
+      path: '/terbuka'
+      fullPath: '/terbuka'
+      preLoaderRoute: typeof AuthenticatedTerbukaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/bicara/': {
+      id: '/_authenticated/bicara/'
+      path: '/bicara'
+      fullPath: '/bicara/'
+      preLoaderRoute: typeof AuthenticatedBicaraIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/bicara/$kod': {
+      id: '/_authenticated/bicara/$kod'
+      path: '/bicara/$kod'
+      fullPath: '/bicara/$kod'
+      preLoaderRoute: typeof AuthenticatedBicaraKodRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedTerbukaRoute: typeof AuthenticatedTerbukaRoute
+  AuthenticatedBicaraKodRoute: typeof AuthenticatedBicaraKodRoute
+  AuthenticatedBicaraIndexRoute: typeof AuthenticatedBicaraIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedTerbukaRoute: AuthenticatedTerbukaRoute,
+  AuthenticatedBicaraKodRoute: AuthenticatedBicaraKodRoute,
+  AuthenticatedBicaraIndexRoute: AuthenticatedBicaraIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   KameraRoute: KameraRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   LatihanSlugRoute: LatihanSlugRoute,
