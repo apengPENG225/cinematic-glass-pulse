@@ -14,13 +14,214 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ahli_bilik: {
+        Row: {
+          bilik_id: string
+          id: string
+          joined_at: string
+          peranan: string
+          user_id: string
+        }
+        Insert: {
+          bilik_id: string
+          id?: string
+          joined_at?: string
+          peranan?: string
+          user_id: string
+        }
+        Update: {
+          bilik_id?: string
+          id?: string
+          joined_at?: string
+          peranan?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ahli_bilik_bilik_id_fkey"
+            columns: ["bilik_id"]
+            isOneToOne: false
+            referencedRelation: "bilik"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bilik: {
+        Row: {
+          created_at: string
+          id: string
+          kod: string
+          nama: string
+          pemilik: string
+          tajuk: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kod: string
+          nama: string
+          pemilik: string
+          tajuk?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kod?: string
+          nama?: string
+          pemilik?: string
+          tajuk?: string | null
+        }
+        Relationships: []
+      }
+      kata_tapis: {
+        Row: {
+          id: string
+          kata: string
+          tahap: string
+        }
+        Insert: {
+          id?: string
+          kata: string
+          tahap?: string
+        }
+        Update: {
+          id?: string
+          kata?: string
+          tahap?: string
+        }
+        Relationships: []
+      }
+      mesej: {
+        Row: {
+          bilik_id: string
+          created_at: string
+          ditapis: boolean
+          id: string
+          imej_url: string | null
+          kandungan: string
+          user_id: string
+        }
+        Insert: {
+          bilik_id: string
+          created_at?: string
+          ditapis?: boolean
+          id?: string
+          imej_url?: string | null
+          kandungan?: string
+          user_id: string
+        }
+        Update: {
+          bilik_id?: string
+          created_at?: string
+          ditapis?: boolean
+          id?: string
+          imej_url?: string | null
+          kandungan?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mesej_bilik_id_fkey"
+            columns: ["bilik_id"]
+            isOneToOne: false
+            referencedRelation: "bilik"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pos: {
+        Row: {
+          created_at: string
+          ditapis: boolean
+          id: string
+          imej_url: string | null
+          induk_id: string | null
+          kandungan: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ditapis?: boolean
+          id?: string
+          imej_url?: string | null
+          induk_id?: string | null
+          kandungan?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ditapis?: boolean
+          id?: string
+          imej_url?: string | null
+          induk_id?: string | null
+          kandungan?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pos_induk_id_fkey"
+            columns: ["induk_id"]
+            isOneToOne: false
+            referencedRelation: "pos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profil: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          nama_paparan: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id: string
+          nama_paparan?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          nama_paparan?: string
+        }
+        Relationships: []
+      }
+      suka_pos: {
+        Row: {
+          created_at: string
+          pos_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          pos_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          pos_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suka_pos_pos_id_fkey"
+            columns: ["pos_id"]
+            isOneToOne: false
+            referencedRelation: "pos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      adalah_ahli: { Args: { _bilik: string; _user: string }; Returns: boolean }
+      sertai_bilik: { Args: { _kod: string }; Returns: string }
+      tapis_teks: { Args: { _teks: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
