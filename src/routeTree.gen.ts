@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as KameraRouteImport } from './routes/kamera'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ModulIndexRouteImport } from './routes/modul/index'
 import { Route as LatihanIndexRouteImport } from './routes/latihan/index'
@@ -25,6 +26,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const KameraRoute = KameraRouteImport.update({
   id: '/kamera',
   path: '/kamera',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +61,7 @@ const LatihanSlugRoute = LatihanSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/latihan/$slug': typeof LatihanSlugRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/latihan/$slug': typeof LatihanSlugRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/latihan/$slug': typeof LatihanSlugRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/kamera'
     | '/sitemap.xml'
     | '/latihan/$slug'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/kamera'
     | '/sitemap.xml'
     | '/latihan/$slug'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/kamera'
     | '/sitemap.xml'
     | '/latihan/$slug'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   KameraRoute: typeof KameraRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   LatihanSlugRoute: typeof LatihanSlugRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/kamera'
       fullPath: '/kamera'
       preLoaderRoute: typeof KameraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   KameraRoute: KameraRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   LatihanSlugRoute: LatihanSlugRoute,
