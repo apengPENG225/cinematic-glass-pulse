@@ -68,7 +68,7 @@ function Auth() {
         sessionStorage.setItem("emunsi-seterusnya", laluanSelamat(seterusnya));
       }
       const res = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: window.location.origin + "/auth",
       });
       if (res.error) setRalat("Gagal daftar masuk Google. Cuba lagi.");
     } finally {
