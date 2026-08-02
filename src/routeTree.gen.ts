@@ -19,6 +19,7 @@ import { Route as LatihanIndexRouteImport } from './routes/latihan/index'
 import { Route as ModulSlugRouteImport } from './routes/modul/$slug'
 import { Route as LatihanSlugRouteImport } from './routes/latihan/$slug'
 import { Route as AuthenticatedBicaraIndexRouteImport } from './routes/_authenticated/bicara/index'
+import { Route as AuthenticatedBicaraKodRouteImport } from './routes/_authenticated/bicara/$kod'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -70,6 +71,11 @@ const AuthenticatedBicaraIndexRoute =
     path: '/bicara/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedBicaraKodRoute = AuthenticatedBicaraKodRouteImport.update({
+  id: '/bicara/$kod',
+  path: '/bicara/$kod',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
+  '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
   '/bicara/': typeof AuthenticatedBicaraIndexRoute
 }
 export interface FileRoutesByTo {
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan': typeof LatihanIndexRoute
   '/modul': typeof ModulIndexRoute
+  '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
   '/bicara': typeof AuthenticatedBicaraIndexRoute
 }
 export interface FileRoutesById {
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/modul/$slug': typeof ModulSlugRoute
   '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
+  '/_authenticated/bicara/$kod': typeof AuthenticatedBicaraKodRoute
   '/_authenticated/bicara/': typeof AuthenticatedBicaraIndexRoute
 }
 export interface FileRouteTypes {
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/modul/$slug'
     | '/latihan/'
     | '/modul/'
+    | '/bicara/$kod'
     | '/bicara/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/modul/$slug'
     | '/latihan'
     | '/modul'
+    | '/bicara/$kod'
     | '/bicara'
   id:
     | '__root__'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/modul/$slug'
     | '/latihan/'
     | '/modul/'
+    | '/_authenticated/bicara/$kod'
     | '/_authenticated/bicara/'
   fileRoutesById: FileRoutesById
 }
@@ -227,14 +239,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBicaraIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/bicara/$kod': {
+      id: '/_authenticated/bicara/$kod'
+      path: '/bicara/$kod'
+      fullPath: '/bicara/$kod'
+      preLoaderRoute: typeof AuthenticatedBicaraKodRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedBicaraKodRoute: typeof AuthenticatedBicaraKodRoute
   AuthenticatedBicaraIndexRoute: typeof AuthenticatedBicaraIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedBicaraKodRoute: AuthenticatedBicaraKodRoute,
   AuthenticatedBicaraIndexRoute: AuthenticatedBicaraIndexRoute,
 }
 
