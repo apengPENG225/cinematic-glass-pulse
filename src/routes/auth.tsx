@@ -51,8 +51,12 @@ function Auth() {
 
   useEffect(() => {
     if (!pengguna) return;
+    const simpan =
+      typeof window !== "undefined" ? sessionStorage.getItem("emunsi-seterusnya") : null;
+    const tuju = laluanSelamat(seterusnya ?? simpan ?? undefined);
     pastikanProfil(pengguna).finally(() => {
-      navigate({ to: laluanSelamat(seterusnya) });
+      if (typeof window !== "undefined") sessionStorage.removeItem("emunsi-seterusnya");
+      navigate({ to: tuju });
     });
   }, [pengguna, navigate, seterusnya]);
 
