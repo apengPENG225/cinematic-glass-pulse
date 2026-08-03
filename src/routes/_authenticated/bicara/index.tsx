@@ -1,10 +1,21 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { DoorOpen, Loader2, LogOut, MessagesSquare, Plus, Users } from "lucide-react";
+import {
+  DoorOpen,
+  Loader2,
+  Lock,
+  LogOut,
+  MessagesSquare,
+  Plus,
+  ShieldCheck,
+  Unlock,
+  Users,
+} from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
 import { supabase } from "@/integrations/supabase/client";
 import { janaKod } from "@/lib/chat";
+import { ralatMesra } from "@/lib/bicara";
 import { pastikanProfil, useAuth } from "@/lib/auth";
 import { useAudioApp } from "@/lib/audio";
 
@@ -15,12 +26,12 @@ export const Route = createFileRoute("/_authenticated/bicara/")({
       {
         name: "description",
         content:
-          "Cipta atau sertai bilik perbincangan bahasa Melayu secara masa nyata dengan kod jemputan peribadi.",
+          "Cipta atau sertai bilik perbincangan bahasa Melayu secara masa nyata dengan kod jemputan dan kata laluan peribadi.",
       },
       { property: "og:title", content: "Ruang Bicara — Bilik Perbincangan Bahasa | e-MuNsi" },
       {
         property: "og:description",
-        content: "Bilik chat masa nyata yang selamat untuk berbincang kesalahan bahasa.",
+        content: "Bilik chat masa nyata yang selamat, berkunci dan ditapis automatik.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -29,7 +40,14 @@ export const Route = createFileRoute("/_authenticated/bicara/")({
   component: BicaraIndex,
 });
 
-type Bilik = { id: string; nama: string; tajuk: string | null; kod: string; pemilik: string };
+type Bilik = {
+  id: string;
+  nama: string;
+  tajuk: string | null;
+  kod: string;
+  pemilik: string;
+  ada_kata_laluan: boolean;
+};
 
 function BicaraIndex() {
   const { pengguna } = useAuth();
@@ -39,14 +57,18 @@ function BicaraIndex() {
   const [memuat, setMemuat] = useState(true);
   const [nama, setNama] = useState("");
   const [tajuk, setTajuk] = useState("");
+  const [guncKunci, setGuncKunci] = useState(false);
+  const [kataLaluan, setKataLaluan] = useState("");
   const [kodSertai, setKodSertai] = useState("");
+  const [kataSertai, setKataSertai] = useState("");
+  const [perluKata, setPerluKata] = useState(false);
   const [sibuk, setSibuk] = useState(false);
   const [ralat, setRalat] = useState<string | null>(null);
 
   const muat = useCallback(async () => {
     const { data } = await supabase
       .from("bilik")
-      .select("id, nama, tajuk, kod, pemilik")
+      .select("id, nama, tajuk, kod, pemilik, ada_kata_laluan")
       .order("created_at", { ascending: false });
     setBilik((data as Bilik[]) ?? []);
     setMemuat(false);
@@ -59,35 +81,52 @@ function BicaraIndex() {
 
   const cipta = async () => {
     if (!pengguna || !nama.trim()) return;
+    if (guncKunci && kataLaluan.trim().length < 4) {
+      setRalat("Kata laluan bilik mesti sekurang-kurangnya 4 aksara.");
+      return;
+    }
     setSibuk(true);
     setRalat(null);
     const kod = janaKod();
-    const { data, error } = await supabase
-      .from("bilik")
-      .insert({ nama: nama.trim(), tajuk: tajuk.trim() || null, kod, pemilik: pengguna.id })
-      .select("id, kod")
-      .single();
+    const { data, error } = await supabase.rpc("cipta_bilik", {
+      _nama: nama.trim(),
+      _tajuk: tajuk.trim() || "",
+      _kod: kod,
+      _kata_laluan: guncKunci ? kataLaluan.trim() : "",
+    });
+    setSibuk(false);
     if (error || !data) {
-      setRalat(error?.message ?? "Gagal mencipta bilik.");
-      setSibuk(false);
+      setRalat(ralatMesra(error?.message ?? "Gagal mencipta bilik."));
       return;
     }
-    await supabase.from("ahli_bilik").insert({ bilik_id: data.id, user_id: pengguna.id, peranan: "hos" });
-    setSibuk(false);
-    navigate({ to: "/bicara/$kod", params: { kod: data.kod } });
+    navigate({ to: "/bicara/$kod", params: { kod: data as string } });
+  };
+
+  const semakKunci = async (kod: string) => {
+    const { data } = await supabase.rpc("bilik_berkunci", { _kod: kod.trim() });
+    setPerluKata(Boolean(data));
   };
 
   const sertai = async () => {
-    if (!kodSertai.trim()) return;
+    const kod = kodSertai.trim().toLowerCase();
+    if (!kod) return;
     setSibuk(true);
     setRalat(null);
-    const { error } = await supabase.rpc("sertai_bilik", { _kod: kodSertai.trim() });
+    const { error } = await supabase.rpc("sertai_bilik", {
+      _kod: kod,
+      _kata_laluan: kataSertai.trim() || "",
+    });
     setSibuk(false);
     if (error) {
-      setRalat("Kod bilik tidak sah.");
+      if (error.message.includes("KATA_LALUAN_SALAH")) {
+        setPerluKata(true);
+        setRalat(kataSertai ? "Kata laluan salah. Cuba lagi." : "Bilik ini berkunci — masukkan kata laluan.");
+      } else {
+        setRalat("Kod bilik tidak sah.");
+      }
       return;
     }
-    navigate({ to: "/bicara/$kod", params: { kod: kodSertai.trim().toLowerCase() } });
+    navigate({ to: "/bicara/$kod", params: { kod } });
   };
 
   const keluar = async () => {
@@ -99,7 +138,7 @@ function BicaraIndex() {
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-black">
       <VideoBackground />
       <SiteNav />
-      <main className="relative z-10 mx-auto w-full max-w-3xl flex-1 px-6 pb-16">
+      <main className="relative z-10 mx-auto w-full max-w-3xl flex-1 px-5 pb-16 sm:px-6">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1
@@ -109,7 +148,7 @@ function BicaraIndex() {
               Ruang Bicara
             </h1>
             <p className="mt-1 text-sm text-white/70">
-              Bilik perbincangan berkod — hanya orang yang ada kod boleh masuk.
+              Bilik berkod &amp; berkunci — selamat, sopan, dan pantas di telefon.
             </p>
           </div>
           <button
@@ -129,14 +168,46 @@ function BicaraIndex() {
               value={nama}
               onChange={(e) => setNama(e.target.value)}
               placeholder="Nama bilik"
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-sm text-white outline-none placeholder:text-white/40"
+              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-base text-white outline-none placeholder:text-white/40"
             />
             <input
               value={tajuk}
               onChange={(e) => setTajuk(e.target.value)}
               placeholder="Tajuk perbincangan (pilihan)"
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-sm text-white outline-none placeholder:text-white/40"
+              className="w-full rounded-2xl bg-white/10 px-4 py-3 text-base text-white outline-none placeholder:text-white/40"
             />
+
+            <button
+              type="button"
+              onClick={() => {
+                klik();
+                setGuncKunci((v) => !v);
+              }}
+              className="flex w-full items-center justify-between rounded-2xl bg-white/5 px-4 py-3 text-left text-sm text-white/80"
+            >
+              <span className="flex items-center gap-2">
+                {guncKunci ? <Lock size={16} /> : <Unlock size={16} />}
+                Kunci bilik dengan kata laluan
+              </span>
+              <span
+                className={`relative h-6 w-11 rounded-full transition-colors ${guncKunci ? "bg-emerald-400/80" : "bg-white/20"}`}
+              >
+                <span
+                  className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-all ${guncKunci ? "left-[1.4rem]" : "left-0.5"}`}
+                />
+              </span>
+            </button>
+            {guncKunci && (
+              <input
+                value={kataLaluan}
+                onChange={(e) => setKataLaluan(e.target.value)}
+                type="password"
+                autoComplete="new-password"
+                placeholder="Kata laluan bilik (min. 4 aksara)"
+                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-base text-white outline-none placeholder:text-white/40"
+              />
+            )}
+
             <button
               onClick={() => {
                 klik();
@@ -156,9 +227,20 @@ function BicaraIndex() {
             <input
               value={kodSertai}
               onChange={(e) => setKodSertai(e.target.value)}
+              onBlur={(e) => e.target.value.trim() && semakKunci(e.target.value)}
               placeholder="cth. abc-defg-hij"
-              className="w-full rounded-2xl bg-white/10 px-4 py-3 font-mono text-sm text-white outline-none placeholder:text-white/40"
+              className="w-full rounded-2xl bg-white/10 px-4 py-3 font-mono text-base text-white outline-none placeholder:text-white/40"
             />
+            {perluKata && (
+              <input
+                value={kataSertai}
+                onChange={(e) => setKataSertai(e.target.value)}
+                type="password"
+                autoComplete="off"
+                placeholder="Kata laluan bilik"
+                className="w-full rounded-2xl bg-white/10 px-4 py-3 text-base text-white outline-none placeholder:text-white/40"
+              />
+            )}
             <button
               onClick={() => {
                 klik();
@@ -203,7 +285,10 @@ function BicaraIndex() {
                 className="liquid-glass flex items-center justify-between gap-3 rounded-3xl p-5 transition-transform hover:scale-[1.01]"
               >
                 <div className="min-w-0">
-                  <p className="truncate font-medium text-white">{b.nama}</p>
+                  <p className="flex items-center gap-2 truncate font-medium text-white">
+                    {b.ada_kata_laluan && <Lock size={14} className="shrink-0 text-emerald-300" />}
+                    {b.nama}
+                  </p>
                   <p className="truncate text-xs text-white/60">{b.tajuk || "Tiada tajuk"}</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-white/10 px-3 py-1 font-mono text-xs text-white/70">
@@ -214,10 +299,16 @@ function BicaraIndex() {
           </div>
         )}
 
-        <p className="mt-6 flex items-start gap-2 text-xs text-white/50">
-          <MessagesSquare size={14} className="mt-0.5 shrink-0" />
-          Semua mesej ditapis automatik — kata lucah atau sensitif akan ditukar kepada bintang.
-        </p>
+        <div className="liquid-glass mt-6 space-y-2 rounded-3xl p-5 text-xs text-white/60">
+          <p className="flex items-start gap-2">
+            <MessagesSquare size={14} className="mt-0.5 shrink-0" />
+            Semua mesej ditapis automatik — kata lucah atau sensitif ditukar kepada bintang.
+          </p>
+          <p className="flex items-start gap-2">
+            <ShieldCheck size={14} className="mt-0.5 shrink-0" />
+            Had anti-spam: 5 mesej / 10 saat, 25 mesej / minit, dan kuota 20 gambar sehari.
+          </p>
+        </div>
       </main>
     </div>
   );

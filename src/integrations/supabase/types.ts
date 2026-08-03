@@ -46,8 +46,35 @@ export type Database = {
           },
         ]
       }
+      bacaan: {
+        Row: {
+          bilik_id: string
+          dibaca_pada: string
+          user_id: string
+        }
+        Insert: {
+          bilik_id: string
+          dibaca_pada?: string
+          user_id: string
+        }
+        Update: {
+          bilik_id?: string
+          dibaca_pada?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bacaan_bilik_id_fkey"
+            columns: ["bilik_id"]
+            isOneToOne: false
+            referencedRelation: "bilik"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bilik: {
         Row: {
+          ada_kata_laluan: boolean
           created_at: string
           id: string
           kod: string
@@ -56,6 +83,7 @@ export type Database = {
           tajuk: string | null
         }
         Insert: {
+          ada_kata_laluan?: boolean
           created_at?: string
           id?: string
           kod: string
@@ -64,6 +92,7 @@ export type Database = {
           tajuk?: string | null
         }
         Update: {
+          ada_kata_laluan?: boolean
           created_at?: string
           id?: string
           kod?: string
@@ -72,6 +101,32 @@ export type Database = {
           tajuk?: string | null
         }
         Relationships: []
+      }
+      bilik_rahsia: {
+        Row: {
+          bilik_id: string
+          cincang: string
+          created_at: string
+        }
+        Insert: {
+          bilik_id: string
+          cincang: string
+          created_at?: string
+        }
+        Update: {
+          bilik_id?: string
+          cincang?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bilik_rahsia_bilik_id_fkey"
+            columns: ["bilik_id"]
+            isOneToOne: true
+            referencedRelation: "bilik"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       kata_tapis: {
         Row: {
@@ -90,6 +145,57 @@ export type Database = {
           tahap?: string
         }
         Relationships: []
+      }
+      laporan: {
+        Row: {
+          created_at: string
+          id: string
+          mesej_id: string | null
+          nota: string | null
+          pelapor: string
+          pos_id: string | null
+          sebab: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mesej_id?: string | null
+          nota?: string | null
+          pelapor: string
+          pos_id?: string | null
+          sebab: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mesej_id?: string | null
+          nota?: string | null
+          pelapor?: string
+          pos_id?: string | null
+          sebab?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "laporan_mesej_id_fkey"
+            columns: ["mesej_id"]
+            isOneToOne: false
+            referencedRelation: "mesej"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "laporan_pos_id_fkey"
+            columns: ["pos_id"]
+            isOneToOne: false
+            referencedRelation: "pos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       mesej: {
         Row: {
@@ -220,8 +326,25 @@ export type Database = {
     }
     Functions: {
       adalah_ahli: { Args: { _bilik: string; _user: string }; Returns: boolean }
-      sertai_bilik: { Args: { _kod: string }; Returns: string }
+      bilik_berkunci: { Args: { _kod: string }; Returns: boolean }
+      cipta_bilik: {
+        Args: {
+          _kata_laluan?: string
+          _kod: string
+          _nama: string
+          _tajuk: string
+        }
+        Returns: string
+      }
+      sertai_bilik: {
+        Args: { _kata_laluan?: string; _kod: string }
+        Returns: string
+      }
       tapis_teks: { Args: { _teks: string }; Returns: string }
+      tetap_kata_laluan: {
+        Args: { _bilik: string; _kata_laluan: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
