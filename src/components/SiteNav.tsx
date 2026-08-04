@@ -8,8 +8,7 @@ const pautan = [
   { to: "/kamera", label: "Kamera Peka" },
   { to: "/modul", label: "Modul" },
   { to: "/latihan", label: "Latihan Kendiri" },
-  { to: "/bicara", label: "Ruang Bicara" },
-  { to: "/terbuka", label: "Ruang Terbuka" },
+  { to: "/pentas/feed", label: "Pentas Munsi" },
 ] as const;
 
 export default function SiteNav() {
