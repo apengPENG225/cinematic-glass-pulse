@@ -20,6 +20,7 @@ import { Route as ModulSlugRouteImport } from './routes/modul/$slug'
 import { Route as LatihanSlugRouteImport } from './routes/latihan/$slug'
 import { Route as AuthenticatedTerbukaRouteImport } from './routes/_authenticated/terbuka'
 import { Route as AuthenticatedPentasRouteRouteImport } from './routes/_authenticated/pentas/route'
+import { Route as AuthenticatedPentasIndexRouteImport } from './routes/_authenticated/pentas/index'
 import { Route as AuthenticatedBicaraIndexRouteImport } from './routes/_authenticated/bicara/index'
 import { Route as AuthenticatedBicaraKodRouteImport } from './routes/_authenticated/bicara/$kod'
 
@@ -78,6 +79,12 @@ const AuthenticatedPentasRouteRoute =
     path: '/pentas',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPentasIndexRoute =
+  AuthenticatedPentasIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPentasRouteRoute,
+  } as any)
 const AuthenticatedBicaraIndexRoute =
   AuthenticatedBicaraIndexRouteImport.update({
     id: '/bicara/',
@@ -95,7 +102,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/pentas': typeof AuthenticatedPentasRouteRoute
+  '/pentas': typeof AuthenticatedPentasRouteRouteWithChildren
   '/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
@@ -103,13 +110,13 @@ export interface FileRoutesByFullPath {
   '/modul/': typeof ModulIndexRoute
   '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
   '/bicara/': typeof AuthenticatedBicaraIndexRoute
+  '/pentas/': typeof AuthenticatedPentasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/pentas': typeof AuthenticatedPentasRouteRoute
   '/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/modul': typeof ModulIndexRoute
   '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
   '/bicara': typeof AuthenticatedBicaraIndexRoute
+  '/pentas': typeof AuthenticatedPentasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,7 +133,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/kamera': typeof KameraRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/_authenticated/pentas': typeof AuthenticatedPentasRouteRoute
+  '/_authenticated/pentas': typeof AuthenticatedPentasRouteRouteWithChildren
   '/_authenticated/terbuka': typeof AuthenticatedTerbukaRoute
   '/latihan/$slug': typeof LatihanSlugRoute
   '/modul/$slug': typeof ModulSlugRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/modul/': typeof ModulIndexRoute
   '/_authenticated/bicara/$kod': typeof AuthenticatedBicaraKodRoute
   '/_authenticated/bicara/': typeof AuthenticatedBicaraIndexRoute
+  '/_authenticated/pentas/': typeof AuthenticatedPentasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -149,13 +158,13 @@ export interface FileRouteTypes {
     | '/modul/'
     | '/bicara/$kod'
     | '/bicara/'
+    | '/pentas/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/kamera'
     | '/sitemap.xml'
-    | '/pentas'
     | '/terbuka'
     | '/latihan/$slug'
     | '/modul/$slug'
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/modul'
     | '/bicara/$kod'
     | '/bicara'
+    | '/pentas'
   id:
     | '__root__'
     | '/'
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/modul/'
     | '/_authenticated/bicara/$kod'
     | '/_authenticated/bicara/'
+    | '/_authenticated/pentas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -271,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPentasRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pentas/': {
+      id: '/_authenticated/pentas/'
+      path: '/'
+      fullPath: '/pentas/'
+      preLoaderRoute: typeof AuthenticatedPentasIndexRouteImport
+      parentRoute: typeof AuthenticatedPentasRouteRoute
+    }
     '/_authenticated/bicara/': {
       id: '/_authenticated/bicara/'
       path: '/bicara'
@@ -288,15 +306,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedPentasRouteRouteChildren {
+  AuthenticatedPentasIndexRoute: typeof AuthenticatedPentasIndexRoute
+}
+
+const AuthenticatedPentasRouteRouteChildren: AuthenticatedPentasRouteRouteChildren =
+  {
+    AuthenticatedPentasIndexRoute: AuthenticatedPentasIndexRoute,
+  }
+
+const AuthenticatedPentasRouteRouteWithChildren =
+  AuthenticatedPentasRouteRoute._addFileChildren(
+    AuthenticatedPentasRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedPentasRouteRoute: typeof AuthenticatedPentasRouteRoute
+  AuthenticatedPentasRouteRoute: typeof AuthenticatedPentasRouteRouteWithChildren
   AuthenticatedTerbukaRoute: typeof AuthenticatedTerbukaRoute
   AuthenticatedBicaraKodRoute: typeof AuthenticatedBicaraKodRoute
   AuthenticatedBicaraIndexRoute: typeof AuthenticatedBicaraIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedPentasRouteRoute: AuthenticatedPentasRouteRoute,
+  AuthenticatedPentasRouteRoute: AuthenticatedPentasRouteRouteWithChildren,
   AuthenticatedTerbukaRoute: AuthenticatedTerbukaRoute,
   AuthenticatedBicaraKodRoute: AuthenticatedBicaraKodRoute,
   AuthenticatedBicaraIndexRoute: AuthenticatedBicaraIndexRoute,
