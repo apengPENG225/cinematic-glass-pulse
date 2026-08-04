@@ -34,7 +34,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 function laluanSelamat(nilai: string | undefined) {
-  if (!nilai || !nilai.startsWith("/") || nilai.startsWith("//")) return "/bicara";
+  if (!nilai || !nilai.startsWith("/") || nilai.startsWith("//")) return "/pentas/feed";
   return nilai;
 }
 

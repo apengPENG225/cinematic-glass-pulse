@@ -284,7 +284,7 @@ function BilikChat() {
             >
               Masuk bilik
             </button>
-            <button onClick={() => navigate({ to: "/bicara" })} className="text-xs text-white/50 underline">
+            <button onClick={() => navigate({ to: "/pentas/bilik" })} className="text-xs text-white/50 underline">
               Kembali ke senarai bilik
             </button>
           </div>
@@ -302,7 +302,7 @@ function BilikChat() {
           <button
             onClick={() => {
               klik();
-              navigate({ to: "/bicara" });
+              navigate({ to: "/pentas/bilik" });
             }}
             aria-label="Kembali ke senarai bilik"
             className="rounded-full p-2 text-white/80 hover:bg-white/10 hover:text-white"
@@ -505,7 +505,7 @@ function BilikChat() {
         <p className="mt-3 text-center text-xs text-white/40">
           Kongsi kod <span className="font-mono">{kod}</span> untuk menjemput rakan · had 5 mesej/10 saat ·
           kuota {HAD.imejSehari} gambar sehari ·{" "}
-          <Link to="/terbuka" className="underline">
+          <Link to="/pentas/feed" className="underline">
             Ruang Terbuka
           </Link>
         </p>
