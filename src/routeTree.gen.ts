@@ -23,6 +23,7 @@ import { Route as AuthenticatedPentasRouteRouteImport } from './routes/_authenti
 import { Route as AuthenticatedPentasIndexRouteImport } from './routes/_authenticated/pentas/index'
 import { Route as AuthenticatedBicaraIndexRouteImport } from './routes/_authenticated/bicara/index'
 import { Route as AuthenticatedPentasFeedRouteImport } from './routes/_authenticated/pentas/feed'
+import { Route as AuthenticatedPentasBilikRouteImport } from './routes/_authenticated/pentas/bilik'
 import { Route as AuthenticatedBicaraKodRouteImport } from './routes/_authenticated/bicara/$kod'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -97,6 +98,12 @@ const AuthenticatedPentasFeedRoute = AuthenticatedPentasFeedRouteImport.update({
   path: '/feed',
   getParentRoute: () => AuthenticatedPentasRouteRoute,
 } as any)
+const AuthenticatedPentasBilikRoute =
+  AuthenticatedPentasBilikRouteImport.update({
+    id: '/bilik',
+    path: '/bilik',
+    getParentRoute: () => AuthenticatedPentasRouteRoute,
+  } as any)
 const AuthenticatedBicaraKodRoute = AuthenticatedBicaraKodRouteImport.update({
   id: '/bicara/$kod',
   path: '/bicara/$kod',
@@ -115,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
   '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
+  '/pentas/bilik': typeof AuthenticatedPentasBilikRoute
   '/pentas/feed': typeof AuthenticatedPentasFeedRoute
   '/bicara/': typeof AuthenticatedBicaraIndexRoute
   '/pentas/': typeof AuthenticatedPentasIndexRoute
@@ -130,6 +138,7 @@ export interface FileRoutesByTo {
   '/latihan': typeof LatihanIndexRoute
   '/modul': typeof ModulIndexRoute
   '/bicara/$kod': typeof AuthenticatedBicaraKodRoute
+  '/pentas/bilik': typeof AuthenticatedPentasBilikRoute
   '/pentas/feed': typeof AuthenticatedPentasFeedRoute
   '/bicara': typeof AuthenticatedBicaraIndexRoute
   '/pentas': typeof AuthenticatedPentasIndexRoute
@@ -148,6 +157,7 @@ export interface FileRoutesById {
   '/latihan/': typeof LatihanIndexRoute
   '/modul/': typeof ModulIndexRoute
   '/_authenticated/bicara/$kod': typeof AuthenticatedBicaraKodRoute
+  '/_authenticated/pentas/bilik': typeof AuthenticatedPentasBilikRoute
   '/_authenticated/pentas/feed': typeof AuthenticatedPentasFeedRoute
   '/_authenticated/bicara/': typeof AuthenticatedBicaraIndexRoute
   '/_authenticated/pentas/': typeof AuthenticatedPentasIndexRoute
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/latihan/'
     | '/modul/'
     | '/bicara/$kod'
+    | '/pentas/bilik'
     | '/pentas/feed'
     | '/bicara/'
     | '/pentas/'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/latihan'
     | '/modul'
     | '/bicara/$kod'
+    | '/pentas/bilik'
     | '/pentas/feed'
     | '/bicara'
     | '/pentas'
@@ -198,6 +210,7 @@ export interface FileRouteTypes {
     | '/latihan/'
     | '/modul/'
     | '/_authenticated/bicara/$kod'
+    | '/_authenticated/pentas/bilik'
     | '/_authenticated/pentas/feed'
     | '/_authenticated/bicara/'
     | '/_authenticated/pentas/'
@@ -315,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPentasFeedRouteImport
       parentRoute: typeof AuthenticatedPentasRouteRoute
     }
+    '/_authenticated/pentas/bilik': {
+      id: '/_authenticated/pentas/bilik'
+      path: '/bilik'
+      fullPath: '/pentas/bilik'
+      preLoaderRoute: typeof AuthenticatedPentasBilikRouteImport
+      parentRoute: typeof AuthenticatedPentasRouteRoute
+    }
     '/_authenticated/bicara/$kod': {
       id: '/_authenticated/bicara/$kod'
       path: '/bicara/$kod'
@@ -326,12 +346,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedPentasRouteRouteChildren {
+  AuthenticatedPentasBilikRoute: typeof AuthenticatedPentasBilikRoute
   AuthenticatedPentasFeedRoute: typeof AuthenticatedPentasFeedRoute
   AuthenticatedPentasIndexRoute: typeof AuthenticatedPentasIndexRoute
 }
 
 const AuthenticatedPentasRouteRouteChildren: AuthenticatedPentasRouteRouteChildren =
   {
+    AuthenticatedPentasBilikRoute: AuthenticatedPentasBilikRoute,
     AuthenticatedPentasFeedRoute: AuthenticatedPentasFeedRoute,
     AuthenticatedPentasIndexRoute: AuthenticatedPentasIndexRoute,
   }
