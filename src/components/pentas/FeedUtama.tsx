@@ -1,9 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Heart, ImagePlus, Loader2, MessageCircle, PenLine, Send, ShieldCheck, X } from "lucide-react";
+import {
+  Heart,
+  ImagePlus,
+  Loader2,
+  MessageCircle,
+  PenLine,
+  Send,
+  ShieldCheck,
+  Sparkles,
+  X,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ImejChat, masaRingkas, muatNaikImej } from "@/lib/chat";
 import { pastikanProfil, useAuth } from "@/lib/auth";
 import { useAudioApp } from "@/lib/audio";
+import { janaPosRakanMunsi } from "@/lib/rakanmunsi.functions";
+
 
 type Pos = {
   id: string;
