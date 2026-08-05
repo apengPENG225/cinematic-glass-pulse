@@ -43,6 +43,9 @@ export default function FeedUtama() {
   const [memuat, setMemuat] = useState(true);
   const [hantar, setHantar] = useState(false);
   const [ralat, setRalat] = useState<string | null>(null);
+  const [jana, setJana] = useState(false);
+  const autoRef = useRef(false);
+
 
   const muatNama = useCallback(async (ids: string[]) => {
     if (ids.length === 0) return;
