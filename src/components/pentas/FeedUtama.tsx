@@ -89,6 +89,29 @@ export default function FeedUtama() {
     muat();
   }, [pengguna, muat]);
 
+  const mintaRakanMunsi = useCallback(async () => {
+    if (autoRef.current) return;
+    autoRef.current = true;
+    setJana(true);
+    setRalat(null);
+    try {
+      await janaPosRakanMunsi();
+      await muat();
+    } catch (e) {
+      setRalat(e instanceof Error ? e.message : "RakanMunsi gagal menghantar.");
+    } finally {
+      setJana(false);
+    }
+  }, [muat]);
+
+  // Auto-post: bila feed benar-benar kosong, RakanMunsi mulakan perbualan.
+  useEffect(() => {
+    if (!memuat && pengguna && pos.filter((p) => !p.induk_id).length === 0) {
+      void mintaRakanMunsi();
+    }
+  }, [memuat, pengguna, pos, mintaRakanMunsi]);
+
+
   useEffect(() => {
     const channel = supabase
       .channel("pos-terbuka")
