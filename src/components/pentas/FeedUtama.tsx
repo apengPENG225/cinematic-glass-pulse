@@ -201,10 +201,19 @@ export default function FeedUtama() {
         </div>
       ) : utama.length === 0 ? (
         <div className="liquid-glass flex flex-col items-center gap-3 rounded-3xl p-8 text-center">
-          <p className="text-sm text-white/70">
-            Belum ada hantaran di sini lagi. Jadilah orang pertama yang berkongsi soalan atau nota hari
-            ini! 🚀
-          </p>
+          {jana ? (
+            <>
+              <Sparkles size={22} className="animate-pulse text-white" />
+              <p className="text-sm text-white/70">
+                RakanMunsi sedang menyiapkan hantaran pembuka + infografik untuk anda…
+              </p>
+            </>
+          ) : (
+            <p className="text-sm text-white/70">
+              Belum ada hantaran di sini lagi. Jadilah orang pertama yang berkongsi soalan atau nota
+              hari ini! 🚀
+            </p>
+          )}
           <button
             onClick={() => {
               klik();
@@ -215,7 +224,19 @@ export default function FeedUtama() {
           >
             <PenLine size={16} /> Tulis Post Baharu
           </button>
+          {!jana && (
+            <button
+              onClick={() => {
+                klik();
+                void mintaRakanMunsi();
+              }}
+              className="flex items-center gap-2 rounded-full bg-white/10 px-5 py-2.5 text-sm text-white/80 hover:text-white"
+            >
+              <Sparkles size={16} /> Minta RakanMunsi mulakan
+            </button>
+          )}
         </div>
+
       ) : (
         <div className="space-y-4">
           {utama.map((p) => (
