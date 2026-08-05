@@ -1,9 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Heart, ImagePlus, Loader2, MessageCircle, PenLine, Send, ShieldCheck, X } from "lucide-react";
+import {
+  Heart,
+  ImagePlus,
+  Loader2,
+  MessageCircle,
+  PenLine,
+  Send,
+  ShieldCheck,
+  Sparkles,
+  X,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ImejChat, masaRingkas, muatNaikImej } from "@/lib/chat";
 import { pastikanProfil, useAuth } from "@/lib/auth";
 import { useAudioApp } from "@/lib/audio";
+import { janaPosRakanMunsi } from "@/lib/rakanmunsi.functions";
+
 
 type Pos = {
   id: string;
@@ -31,6 +43,9 @@ export default function FeedUtama() {
   const [memuat, setMemuat] = useState(true);
   const [hantar, setHantar] = useState(false);
   const [ralat, setRalat] = useState<string | null>(null);
+  const [jana, setJana] = useState(false);
+  const autoRef = useRef(false);
+
 
   const muatNama = useCallback(async (ids: string[]) => {
     if (ids.length === 0) return;
@@ -73,6 +88,29 @@ export default function FeedUtama() {
     if (pengguna) pastikanProfil(pengguna);
     muat();
   }, [pengguna, muat]);
+
+  const mintaRakanMunsi = useCallback(async () => {
+    if (autoRef.current) return;
+    autoRef.current = true;
+    setJana(true);
+    setRalat(null);
+    try {
+      await janaPosRakanMunsi();
+      await muat();
+    } catch (e) {
+      setRalat(e instanceof Error ? e.message : "RakanMunsi gagal menghantar.");
+    } finally {
+      setJana(false);
+    }
+  }, [muat]);
+
+  // Auto-post: bila feed benar-benar kosong, RakanMunsi mulakan perbualan.
+  useEffect(() => {
+    if (!memuat && pengguna && pos.filter((p) => !p.induk_id).length === 0) {
+      void mintaRakanMunsi();
+    }
+  }, [memuat, pengguna, pos, mintaRakanMunsi]);
+
 
   useEffect(() => {
     const channel = supabase
@@ -201,10 +239,19 @@ export default function FeedUtama() {
         </div>
       ) : utama.length === 0 ? (
         <div className="liquid-glass flex flex-col items-center gap-3 rounded-3xl p-8 text-center">
-          <p className="text-sm text-white/70">
-            Belum ada hantaran di sini lagi. Jadilah orang pertama yang berkongsi soalan atau nota hari
-            ini! 🚀
-          </p>
+          {jana ? (
+            <>
+              <Sparkles size={22} className="animate-pulse text-white" />
+              <p className="text-sm text-white/70">
+                RakanMunsi sedang menyiapkan hantaran pembuka + infografik untuk anda…
+              </p>
+            </>
+          ) : (
+            <p className="text-sm text-white/70">
+              Belum ada hantaran di sini lagi. Jadilah orang pertama yang berkongsi soalan atau nota
+              hari ini! 🚀
+            </p>
+          )}
           <button
             onClick={() => {
               klik();
@@ -215,7 +262,19 @@ export default function FeedUtama() {
           >
             <PenLine size={16} /> Tulis Post Baharu
           </button>
+          {!jana && (
+            <button
+              onClick={() => {
+                klik();
+                void mintaRakanMunsi();
+              }}
+              className="flex items-center gap-2 rounded-full bg-white/10 px-5 py-2.5 text-sm text-white/80 hover:text-white"
+            >
+              <Sparkles size={16} /> Minta RakanMunsi mulakan
+            </button>
+          )}
         </div>
+
       ) : (
         <div className="space-y-4">
           {utama.map((p) => (
