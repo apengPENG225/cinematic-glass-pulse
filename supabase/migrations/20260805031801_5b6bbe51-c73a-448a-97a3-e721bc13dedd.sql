@@ -1,0 +1,1 @@
+delete from public.pos where kandungan = 'Ujian RakanMunsi';
