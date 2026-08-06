@@ -50,7 +50,7 @@ function PentasLayout() {
           </button>
         </div>
 
-        <div className="liquid-glass mb-6 grid grid-cols-2 gap-1 rounded-full p-1">
+        <div className="liquid-glass mb-6 grid grid-cols-3 gap-1 rounded-full p-1">
           {tab.map((t) => (
             <Link
               key={t.to}
@@ -58,7 +58,7 @@ function PentasLayout() {
               onClick={klik}
               activeProps={{ className: "bg-white text-black" }}
               inactiveProps={{ className: "text-white/70 hover:text-white" }}
-              className="flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-colors"
+              className="flex items-center justify-center gap-1.5 rounded-full px-2 py-2.5 text-xs font-medium transition-colors sm:gap-2 sm:px-4 sm:text-sm"
             >
               <t.icon size={16} /> {t.label}
             </Link>

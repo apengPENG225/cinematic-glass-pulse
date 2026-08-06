@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
+import BarSuara from "@/components/bicara/BarSuara";
 import SiteNav from "@/components/SiteNav";
 import { supabase } from "@/integrations/supabase/client";
 import { ImejChat, masaRingkas, muatNaikImej } from "@/lib/chat";
