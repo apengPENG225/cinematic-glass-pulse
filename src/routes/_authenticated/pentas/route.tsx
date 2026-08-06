@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { LogOut, MessagesSquare, Newspaper } from "lucide-react";
+import { Briefcase, LogOut, MessagesSquare, Newspaper } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,9 +10,11 @@ export const Route = createFileRoute("/_authenticated/pentas")({
 });
 
 const tab = [
-  { to: "/pentas/feed", label: "Feed Utama", icon: Newspaper },
-  { to: "/pentas/bilik", label: "Bilik Diskusi", icon: MessagesSquare },
+  { to: "/pentas/feed", label: "Feed", icon: Newspaper },
+  { to: "/pentas/bilik", label: "Bilik", icon: MessagesSquare },
+  { to: "/pentas/alat", label: "Kotak Alat", icon: Briefcase },
 ] as const;
+
 
 function PentasLayout() {
   const { klik } = useAudioApp();
