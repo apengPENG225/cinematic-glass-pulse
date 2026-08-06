@@ -96,6 +96,7 @@ export function useSuara(bilikId: string | null, userId: string | null, nama: st
       const sedia = pcRef.current.get(rakan);
       if (sedia) return sedia;
 
+      const saya = userId ?? "";
       const pc = new RTCPeerConnection(ICE);
       pcRef.current.set(rakan, pc);
       streamRef.current?.getTracks().forEach((t) => pc.addTrack(t, streamRef.current!));
@@ -105,7 +106,7 @@ export function useSuara(bilikId: string | null, userId: string | null, nama: st
         void chRef.current?.send({
           type: "broadcast",
           event: "ais",
-          payload: { dari: userId, kepada: rakan, ais: e.candidate.toJSON() } satisfies Isyarat,
+          payload: { dari: saya, kepada: rakan, ais: e.candidate.toJSON() } satisfies Isyarat,
         });
       };
 
@@ -138,7 +139,7 @@ export function useSuara(bilikId: string | null, userId: string | null, nama: st
           void chRef.current?.send({
             type: "broadcast",
             event: "tawaran",
-            payload: { dari: userId, kepada: rakan, sdp: tawaran } satisfies Isyarat,
+            payload: { dari: saya, kepada: rakan, sdp: tawaran } satisfies Isyarat,
           });
         })();
       }
