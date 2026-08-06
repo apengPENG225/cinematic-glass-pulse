@@ -334,6 +334,14 @@ function BilikChat() {
           </button>
         </div>
 
+        <BarSuara
+          bilikId={bilik?.id ?? null}
+          userId={pengguna?.id ?? null}
+          nama={(pengguna && nama[pengguna.id]) || "Pengguna"}
+        />
+
+
+
         {hadir.length > 0 && (
           <div className="mb-3 flex flex-wrap gap-2">
             {hadir.slice(0, 8).map((h) => (
