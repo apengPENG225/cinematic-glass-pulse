@@ -128,6 +128,44 @@ export type Database = {
           },
         ]
       }
+      kad: {
+        Row: {
+          created_at: string
+          id: string
+          jawapan: string
+          set_id: string
+          soalan: string
+          urutan: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          jawapan: string
+          set_id: string
+          soalan: string
+          urutan?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jawapan?: string
+          set_id?: string
+          soalan?: string
+          urutan?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kad_set_id_fkey"
+            columns: ["set_id"]
+            isOneToOne: false
+            referencedRelation: "set_kad"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kata_tapis: {
         Row: {
           id: string
@@ -294,6 +332,30 @@ export type Database = {
         }
         Relationships: []
       }
+      set_kad: {
+        Row: {
+          created_at: string
+          id: string
+          tajuk: string
+          topik: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          tajuk: string
+          topik?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          tajuk?: string
+          topik?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       suka_pos: {
         Row: {
           created_at: string
@@ -316,6 +378,95 @@ export type Database = {
             columns: ["pos_id"]
             isOneToOne: false
             referencedRelation: "pos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      undian: {
+        Row: {
+          created_at: string
+          id: string
+          soalan: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          soalan: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          soalan?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      undian_pilihan: {
+        Row: {
+          id: string
+          teks: string
+          undian_id: string
+          urutan: number
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          teks: string
+          undian_id: string
+          urutan?: number
+          user_id: string
+        }
+        Update: {
+          id?: string
+          teks?: string
+          undian_id?: string
+          urutan?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "undian_pilihan_undian_id_fkey"
+            columns: ["undian_id"]
+            isOneToOne: false
+            referencedRelation: "undian"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      undian_undi: {
+        Row: {
+          created_at: string
+          pilihan_id: string
+          undian_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          pilihan_id: string
+          undian_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          pilihan_id?: string
+          undian_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "undian_undi_pilihan_id_fkey"
+            columns: ["pilihan_id"]
+            isOneToOne: false
+            referencedRelation: "undian_pilihan"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "undian_undi_undian_id_fkey"
+            columns: ["undian_id"]
+            isOneToOne: false
+            referencedRelation: "undian"
             referencedColumns: ["id"]
           },
         ]

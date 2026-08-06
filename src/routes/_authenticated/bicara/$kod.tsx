@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
+import BarSuara from "@/components/bicara/BarSuara";
 import SiteNav from "@/components/SiteNav";
 import { supabase } from "@/integrations/supabase/client";
 import { ImejChat, masaRingkas, muatNaikImej } from "@/lib/chat";
@@ -332,6 +333,14 @@ function BilikChat() {
             <Copy size={14} /> {salin ? "Disalin!" : kod}
           </button>
         </div>
+
+        <BarSuara
+          bilikId={bilik?.id ?? null}
+          userId={pengguna?.id ?? null}
+          nama={(pengguna && nama[pengguna.id]) || "Pengguna"}
+        />
+
+
 
         {hadir.length > 0 && (
           <div className="mb-3 flex flex-wrap gap-2">
