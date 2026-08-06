@@ -25,6 +25,7 @@ import { Route as AuthenticatedBicaraIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedPentasFeedRouteImport } from './routes/_authenticated/pentas/feed'
 import { Route as AuthenticatedPentasBilikRouteImport } from './routes/_authenticated/pentas/bilik'
 import { Route as AuthenticatedBicaraKodRouteImport } from './routes/_authenticated/bicara/$kod'
+import { Route as ApiPublicHooksRakanmunsiHarianRouteImport } from './routes/api/public/hooks/rakanmunsi-harian'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -109,6 +110,12 @@ const AuthenticatedBicaraKodRoute = AuthenticatedBicaraKodRouteImport.update({
   path: '/bicara/$kod',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicHooksRakanmunsiHarianRoute =
+  ApiPublicHooksRakanmunsiHarianRouteImport.update({
+    id: '/api/public/hooks/rakanmunsi-harian',
+    path: '/api/public/hooks/rakanmunsi-harian',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/pentas/feed': typeof AuthenticatedPentasFeedRoute
   '/bicara/': typeof AuthenticatedBicaraIndexRoute
   '/pentas/': typeof AuthenticatedPentasIndexRoute
+  '/api/public/hooks/rakanmunsi-harian': typeof ApiPublicHooksRakanmunsiHarianRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -142,6 +150,7 @@ export interface FileRoutesByTo {
   '/pentas/feed': typeof AuthenticatedPentasFeedRoute
   '/bicara': typeof AuthenticatedBicaraIndexRoute
   '/pentas': typeof AuthenticatedPentasIndexRoute
+  '/api/public/hooks/rakanmunsi-harian': typeof ApiPublicHooksRakanmunsiHarianRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -161,6 +170,7 @@ export interface FileRoutesById {
   '/_authenticated/pentas/feed': typeof AuthenticatedPentasFeedRoute
   '/_authenticated/bicara/': typeof AuthenticatedBicaraIndexRoute
   '/_authenticated/pentas/': typeof AuthenticatedPentasIndexRoute
+  '/api/public/hooks/rakanmunsi-harian': typeof ApiPublicHooksRakanmunsiHarianRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/pentas/feed'
     | '/bicara/'
     | '/pentas/'
+    | '/api/public/hooks/rakanmunsi-harian'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/pentas/feed'
     | '/bicara'
     | '/pentas'
+    | '/api/public/hooks/rakanmunsi-harian'
   id:
     | '__root__'
     | '/'
@@ -214,6 +226,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pentas/feed'
     | '/_authenticated/bicara/'
     | '/_authenticated/pentas/'
+    | '/api/public/hooks/rakanmunsi-harian'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -226,6 +239,7 @@ export interface RootRouteChildren {
   ModulSlugRoute: typeof ModulSlugRoute
   LatihanIndexRoute: typeof LatihanIndexRoute
   ModulIndexRoute: typeof ModulIndexRoute
+  ApiPublicHooksRakanmunsiHarianRoute: typeof ApiPublicHooksRakanmunsiHarianRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -342,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBicaraKodRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/hooks/rakanmunsi-harian': {
+      id: '/api/public/hooks/rakanmunsi-harian'
+      path: '/api/public/hooks/rakanmunsi-harian'
+      fullPath: '/api/public/hooks/rakanmunsi-harian'
+      preLoaderRoute: typeof ApiPublicHooksRakanmunsiHarianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -390,17 +411,8 @@ const rootRouteChildren: RootRouteChildren = {
   ModulSlugRoute: ModulSlugRoute,
   LatihanIndexRoute: LatihanIndexRoute,
   ModulIndexRoute: ModulIndexRoute,
+  ApiPublicHooksRakanmunsiHarianRoute: ApiPublicHooksRakanmunsiHarianRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

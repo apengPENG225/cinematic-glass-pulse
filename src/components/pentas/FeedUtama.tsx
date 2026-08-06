@@ -104,12 +104,16 @@ export default function FeedUtama() {
     }
   }, [muat]);
 
-  // Auto-post: bila feed benar-benar kosong, RakanMunsi mulakan perbualan.
+  // Hantaran harian RakanMunsi: dicuba sekali sehari sahaja (pelayan tetap
+  // menolak jika hantaran hari ini sudah ada, jadi tiada penghantaran berulang).
   useEffect(() => {
-    if (!memuat && pengguna && pos.filter((p) => !p.induk_id).length === 0) {
-      void mintaRakanMunsi();
-    }
-  }, [memuat, pengguna, pos, mintaRakanMunsi]);
+    if (memuat || !pengguna) return;
+    const hariIni = new Date().toISOString().slice(0, 10);
+    if (localStorage.getItem("rakanmunsi-harian") === hariIni) return;
+    localStorage.setItem("rakanmunsi-harian", hariIni);
+    void mintaRakanMunsi();
+  }, [memuat, pengguna, mintaRakanMunsi]);
+
 
 
   useEffect(() => {
