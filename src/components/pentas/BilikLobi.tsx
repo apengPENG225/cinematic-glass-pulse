@@ -175,7 +175,7 @@ export default function BilikLobi() {
             value={kodSertai}
             onChange={(e) => setKodSertai(e.target.value)}
             onBlur={(e) => e.target.value.trim() && semakKunci(e.target.value)}
-            placeholder="cth. abc-defg-hij"
+            placeholder="Kod atau pautan jemputan"
             className="w-full rounded-2xl bg-white/10 px-4 py-3 font-mono text-base text-white outline-none placeholder:text-white/40"
           />
           {perluKata && (
