@@ -16,6 +16,14 @@ type Bilik = {
   ada_kata_laluan: boolean;
 };
 
+/** Terima kod biasa atau pautan jemputan penuh (…/bicara/abc-defg-hij). */
+function ambilKod(masuk: string) {
+  const bersih = masuk.trim().toLowerCase();
+  const padan = bersih.match(/([a-z]{3}-[a-z]{4}-[a-z]{3})/);
+  return padan?.[1] ?? bersih;
+}
+
+
 export default function BilikLobi() {
   const { pengguna } = useAuth();
   const navigate = useNavigate();
