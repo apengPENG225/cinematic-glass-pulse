@@ -78,7 +78,7 @@ export default function BilikLobi() {
   };
 
   const semakKunci = async (kod: string) => {
-    const { data } = await supabase.rpc("bilik_berkunci", { _kod: kod.trim() });
+    const { data } = await supabase.rpc("bilik_berkunci", { _kod: ambilKod(kod) });
     setPerluKata(Boolean(data));
   };
 
