@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { Briefcase, LogOut, MessagesSquare, Newspaper } from "lucide-react";
+import { Briefcase, LogOut, MessagesSquare, Newspaper, UserRound } from "lucide-react";
 import VideoBackground from "@/components/VideoBackground";
 import SiteNav from "@/components/SiteNav";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +13,7 @@ const tab = [
   { to: "/pentas/feed", label: "Feed", icon: Newspaper },
   { to: "/pentas/bilik", label: "Bilik", icon: MessagesSquare },
   { to: "/pentas/alat", label: "Kotak Alat", icon: Briefcase },
+  { to: "/pentas/profil", label: "Profil", icon: UserRound },
 ] as const;
 
 
@@ -50,7 +51,7 @@ function PentasLayout() {
           </button>
         </div>
 
-        <div className="liquid-glass mb-6 grid grid-cols-3 gap-1 rounded-full p-1">
+        <div className="liquid-glass mb-6 grid grid-cols-4 gap-1 rounded-full p-1">
           {tab.map((t) => (
             <Link
               key={t.to}

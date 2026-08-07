@@ -22,6 +22,7 @@ import { Route as AuthenticatedTerbukaRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedPentasRouteRouteImport } from './routes/_authenticated/pentas/route'
 import { Route as AuthenticatedPentasIndexRouteImport } from './routes/_authenticated/pentas/index'
 import { Route as AuthenticatedBicaraIndexRouteImport } from './routes/_authenticated/bicara/index'
+import { Route as AuthenticatedPentasProfilRouteImport } from './routes/_authenticated/pentas/profil'
 import { Route as AuthenticatedPentasFeedRouteImport } from './routes/_authenticated/pentas/feed'
 import { Route as AuthenticatedPentasBilikRouteImport } from './routes/_authenticated/pentas/bilik'
 import { Route as AuthenticatedPentasAlatRouteImport } from './routes/_authenticated/pentas/alat'
@@ -95,6 +96,12 @@ const AuthenticatedBicaraIndexRoute =
     path: '/bicara/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPentasProfilRoute =
+  AuthenticatedPentasProfilRouteImport.update({
+    id: '/profil',
+    path: '/profil',
+    getParentRoute: () => AuthenticatedPentasRouteRoute,
+  } as any)
 const AuthenticatedPentasFeedRoute = AuthenticatedPentasFeedRouteImport.update({
   id: '/feed',
   path: '/feed',
@@ -138,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/pentas/alat': typeof AuthenticatedPentasAlatRoute
   '/pentas/bilik': typeof AuthenticatedPentasBilikRoute
   '/pentas/feed': typeof AuthenticatedPentasFeedRoute
+  '/pentas/profil': typeof AuthenticatedPentasProfilRoute
   '/bicara/': typeof AuthenticatedBicaraIndexRoute
   '/pentas/': typeof AuthenticatedPentasIndexRoute
   '/api/public/hooks/rakanmunsi-harian': typeof ApiPublicHooksRakanmunsiHarianRoute
@@ -156,6 +164,7 @@ export interface FileRoutesByTo {
   '/pentas/alat': typeof AuthenticatedPentasAlatRoute
   '/pentas/bilik': typeof AuthenticatedPentasBilikRoute
   '/pentas/feed': typeof AuthenticatedPentasFeedRoute
+  '/pentas/profil': typeof AuthenticatedPentasProfilRoute
   '/bicara': typeof AuthenticatedBicaraIndexRoute
   '/pentas': typeof AuthenticatedPentasIndexRoute
   '/api/public/hooks/rakanmunsi-harian': typeof ApiPublicHooksRakanmunsiHarianRoute
@@ -177,6 +186,7 @@ export interface FileRoutesById {
   '/_authenticated/pentas/alat': typeof AuthenticatedPentasAlatRoute
   '/_authenticated/pentas/bilik': typeof AuthenticatedPentasBilikRoute
   '/_authenticated/pentas/feed': typeof AuthenticatedPentasFeedRoute
+  '/_authenticated/pentas/profil': typeof AuthenticatedPentasProfilRoute
   '/_authenticated/bicara/': typeof AuthenticatedBicaraIndexRoute
   '/_authenticated/pentas/': typeof AuthenticatedPentasIndexRoute
   '/api/public/hooks/rakanmunsi-harian': typeof ApiPublicHooksRakanmunsiHarianRoute
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/pentas/alat'
     | '/pentas/bilik'
     | '/pentas/feed'
+    | '/pentas/profil'
     | '/bicara/'
     | '/pentas/'
     | '/api/public/hooks/rakanmunsi-harian'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/pentas/alat'
     | '/pentas/bilik'
     | '/pentas/feed'
+    | '/pentas/profil'
     | '/bicara'
     | '/pentas'
     | '/api/public/hooks/rakanmunsi-harian'
@@ -236,6 +248,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pentas/alat'
     | '/_authenticated/pentas/bilik'
     | '/_authenticated/pentas/feed'
+    | '/_authenticated/pentas/profil'
     | '/_authenticated/bicara/'
     | '/_authenticated/pentas/'
     | '/api/public/hooks/rakanmunsi-harian'
@@ -347,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBicaraIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pentas/profil': {
+      id: '/_authenticated/pentas/profil'
+      path: '/profil'
+      fullPath: '/pentas/profil'
+      preLoaderRoute: typeof AuthenticatedPentasProfilRouteImport
+      parentRoute: typeof AuthenticatedPentasRouteRoute
+    }
     '/_authenticated/pentas/feed': {
       id: '/_authenticated/pentas/feed'
       path: '/feed'
@@ -389,6 +409,7 @@ interface AuthenticatedPentasRouteRouteChildren {
   AuthenticatedPentasAlatRoute: typeof AuthenticatedPentasAlatRoute
   AuthenticatedPentasBilikRoute: typeof AuthenticatedPentasBilikRoute
   AuthenticatedPentasFeedRoute: typeof AuthenticatedPentasFeedRoute
+  AuthenticatedPentasProfilRoute: typeof AuthenticatedPentasProfilRoute
   AuthenticatedPentasIndexRoute: typeof AuthenticatedPentasIndexRoute
 }
 
@@ -397,6 +418,7 @@ const AuthenticatedPentasRouteRouteChildren: AuthenticatedPentasRouteRouteChildr
     AuthenticatedPentasAlatRoute: AuthenticatedPentasAlatRoute,
     AuthenticatedPentasBilikRoute: AuthenticatedPentasBilikRoute,
     AuthenticatedPentasFeedRoute: AuthenticatedPentasFeedRoute,
+    AuthenticatedPentasProfilRoute: AuthenticatedPentasProfilRoute,
     AuthenticatedPentasIndexRoute: AuthenticatedPentasIndexRoute,
   }
 
