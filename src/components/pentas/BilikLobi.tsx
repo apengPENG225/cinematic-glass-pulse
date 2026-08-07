@@ -16,6 +16,14 @@ type Bilik = {
   ada_kata_laluan: boolean;
 };
 
+/** Terima kod biasa atau pautan jemputan penuh (…/bicara/abc-defg-hij). */
+function ambilKod(masuk: string) {
+  const bersih = masuk.trim().toLowerCase();
+  const padan = bersih.match(/([a-z]{3}-[a-z]{4}-[a-z]{3})/);
+  return padan?.[1] ?? bersih;
+}
+
+
 export default function BilikLobi() {
   const { pengguna } = useAuth();
   const navigate = useNavigate();
@@ -70,12 +78,12 @@ export default function BilikLobi() {
   };
 
   const semakKunci = async (kod: string) => {
-    const { data } = await supabase.rpc("bilik_berkunci", { _kod: kod.trim() });
+    const { data } = await supabase.rpc("bilik_berkunci", { _kod: ambilKod(kod) });
     setPerluKata(Boolean(data));
   };
 
   const sertai = async () => {
-    const kod = kodSertai.trim().toLowerCase();
+    const kod = ambilKod(kodSertai);
     if (!kod) return;
     setSibuk(true);
     setRalat(null);
@@ -167,7 +175,7 @@ export default function BilikLobi() {
             value={kodSertai}
             onChange={(e) => setKodSertai(e.target.value)}
             onBlur={(e) => e.target.value.trim() && semakKunci(e.target.value)}
-            placeholder="cth. abc-defg-hij"
+            placeholder="Kod atau pautan jemputan"
             className="w-full rounded-2xl bg-white/10 px-4 py-3 font-mono text-base text-white outline-none placeholder:text-white/40"
           />
           {perluKata && (

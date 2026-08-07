@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.adalah_ahli(uuid, uuid) TO authenticated;

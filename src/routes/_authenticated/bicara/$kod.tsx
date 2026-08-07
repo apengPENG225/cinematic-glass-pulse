@@ -324,10 +324,16 @@ function BilikChat() {
           </div>
           <button
             onClick={() => {
-              navigator.clipboard.writeText(kod);
+              const pautan = `${window.location.origin}/bicara/${kod}`;
+              if (navigator.share) {
+                void navigator.share({ title: bilik?.nama ?? "Bilik e-MuNsi", url: pautan }).catch(() => {});
+              } else {
+                navigator.clipboard.writeText(pautan);
+              }
               setSalin(true);
               setTimeout(() => setSalin(false), 1500);
             }}
+            aria-label="Kongsi pautan jemputan bilik"
             className="flex shrink-0 items-center gap-2 rounded-full bg-white/10 px-3 py-2 font-mono text-xs text-white/80 hover:text-white"
           >
             <Copy size={14} /> {salin ? "Disalin!" : kod}
