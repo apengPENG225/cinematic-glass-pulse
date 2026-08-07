@@ -42,7 +42,7 @@ const PANGKAT = [
 ] as const;
 
 function pangkatKini(mata: number) {
-  let hasil = PANGKAT[0];
+  let hasil: { nama: string; min: number; warna: string } = PANGKAT[0];
   for (const p of PANGKAT) if (mata >= p.min) hasil = p;
   return hasil;
 }
