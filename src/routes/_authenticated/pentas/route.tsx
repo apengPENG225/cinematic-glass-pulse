@@ -51,7 +51,7 @@ function PentasLayout() {
           </button>
         </div>
 
-        <div className="liquid-glass mb-6 grid grid-cols-3 gap-1 rounded-full p-1">
+        <div className="liquid-glass mb-6 grid grid-cols-4 gap-1 rounded-full p-1">
           {tab.map((t) => (
             <Link
               key={t.to}
