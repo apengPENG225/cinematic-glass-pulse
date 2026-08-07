@@ -75,7 +75,7 @@ export default function BilikLobi() {
   };
 
   const sertai = async () => {
-    const kod = kodSertai.trim().toLowerCase();
+    const kod = ambilKod(kodSertai);
     if (!kod) return;
     setSibuk(true);
     setRalat(null);
